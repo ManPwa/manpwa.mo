@@ -233,6 +233,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.2"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -424,6 +432,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  markdown:
+    dependency: "direct main"
+    description:
+      name: markdown
+      sha256: "8e332924094383133cee218b676871f42db2514f1f6ac617b6cf6152a7faab8e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.1.0"
   matcher:
     dependency: transitive
     description:

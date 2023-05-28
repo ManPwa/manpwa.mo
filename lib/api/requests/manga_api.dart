@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:built_collection/built_collection.dart';
 
 import '../../lib_wrappers/index.dart';
@@ -11,7 +13,7 @@ class MangaApi {
   MangaApi({required this.access});
 
   Future<MangaResponse> getMangaList() async {
-    final response = await access.fetch('api/manga');
+    final response = await access.fetch('api/manga?limit=8&sort={"average_rating":-1}');
     return MangaResponse.fromJson(response.data);
   }
 
