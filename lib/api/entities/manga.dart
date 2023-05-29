@@ -47,6 +47,8 @@ abstract class Manga implements Built<Manga, MangaBuilder> {
   
   double? get average_rating;
 
+  double? get latest_chapter;
+
   // use when transform field from snack_case to camelCase
   // @BuiltValueField(wireName: 'first_name')
   // String get firstName;

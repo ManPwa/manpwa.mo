@@ -130,6 +130,13 @@ class _$MangaSerializer implements StructuredSerializer<Manga> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(double)));
     }
+    value = object.latest_chapter;
+    if (value != null) {
+      result
+        ..add('latest_chapter')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
     return result;
   }
 
@@ -210,6 +217,10 @@ class _$MangaSerializer implements StructuredSerializer<Manga> {
           result.average_rating = serializers.deserialize(value,
               specifiedType: const FullType(double)) as double?;
           break;
+        case 'latest_chapter':
+          result.latest_chapter = serializers.deserialize(value,
+              specifiedType: const FullType(double)) as double?;
+          break;
       }
     }
 
@@ -250,6 +261,8 @@ class _$Manga extends Manga {
   final int? following;
   @override
   final double? average_rating;
+  @override
+  final double? latest_chapter;
 
   factory _$Manga([void Function(MangaBuilder)? updates]) =>
       (new MangaBuilder()..update(updates))._build();
@@ -270,7 +283,8 @@ class _$Manga extends Manga {
       this.updater,
       this.created,
       this.following,
-      this.average_rating})
+      this.average_rating,
+      this.latest_chapter})
       : super._();
 
   @override
@@ -299,7 +313,8 @@ class _$Manga extends Manga {
         updater == other.updater &&
         created == other.created &&
         following == other.following &&
-        average_rating == other.average_rating;
+        average_rating == other.average_rating &&
+        latest_chapter == other.latest_chapter;
   }
 
   @override
@@ -321,6 +336,7 @@ class _$Manga extends Manga {
     _$hash = $jc(_$hash, created.hashCode);
     _$hash = $jc(_$hash, following.hashCode);
     _$hash = $jc(_$hash, average_rating.hashCode);
+    _$hash = $jc(_$hash, latest_chapter.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -343,7 +359,8 @@ class _$Manga extends Manga {
           ..add('updater', updater)
           ..add('created', created)
           ..add('following', following)
-          ..add('average_rating', average_rating))
+          ..add('average_rating', average_rating)
+          ..add('latest_chapter', latest_chapter))
         .toString();
   }
 }
@@ -418,6 +435,11 @@ class MangaBuilder implements Builder<Manga, MangaBuilder> {
   set average_rating(double? average_rating) =>
       _$this._average_rating = average_rating;
 
+  double? _latest_chapter;
+  double? get latest_chapter => _$this._latest_chapter;
+  set latest_chapter(double? latest_chapter) =>
+      _$this._latest_chapter = latest_chapter;
+
   MangaBuilder();
 
   MangaBuilder get _$this {
@@ -439,6 +461,7 @@ class MangaBuilder implements Builder<Manga, MangaBuilder> {
       _created = $v.created;
       _following = $v.following;
       _average_rating = $v.average_rating;
+      _latest_chapter = $v.latest_chapter;
       _$v = null;
     }
     return this;
@@ -478,7 +501,8 @@ class MangaBuilder implements Builder<Manga, MangaBuilder> {
               updater: updater,
               created: created,
               following: following,
-              average_rating: average_rating);
+              average_rating: average_rating,
+              latest_chapter: latest_chapter);
     } catch (_) {
       late String _$failedField;
       try {

@@ -12,8 +12,9 @@ class MangaApi {
 
   MangaApi({required this.access});
 
-  Future<MangaResponse> getMangaList() async {
-    final response = await access.fetch('api/manga?limit=8&sort={"average_rating":-1}');
+  Future<MangaResponse> getMangaList(
+      Map<String, dynamic> params) async {
+    final response = await access.fetch('api/manga', queryParameters: params);
     return MangaResponse.fromJson(response.data);
   }
 
