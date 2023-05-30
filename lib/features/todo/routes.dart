@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:manpwa/features/todo/pages/todo_detail_page.dart';
+import 'package:manpwa/features/todo/pages/manga_detail_page.dart';
 
 import 'pages/index.dart';
 
@@ -10,11 +10,11 @@ GoRoute setupRoutes() {
     builder: (context, state) => const HomePage(),
     routes: [
       GoRoute(
-        name: TodoDetailPage.routeName,
-        path: TodoDetailPage.routePath,
+        name: MangaDetailPage.routeName,
+        path: MangaDetailPage.routePath,
         builder: (context, state) {
-          final todoId = state.pathParameters[TodoDetailPage.kTodoIdParam]!;
-          return TodoDetailPage(todoId: todoId);
+          final mangaId = state.pathParameters[MangaDetailPage.kMangaIdParam]!;
+          return MangaDetailPage(mangaId: mangaId);
         },
       ),
     ],

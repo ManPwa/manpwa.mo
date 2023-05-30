@@ -18,10 +18,10 @@ class MangaApi {
     return MangaResponse.fromJson(response.data);
   }
 
-  Future<Manga> getMangaItem({
-    required String mangaId,
-  }) async {
-    final response = await access.fetch('mangas/$mangaId');
+  Future<Manga> getMangaItem(
+    String mangaId,
+  ) async {
+    final response = await access.fetch('api/manga/$mangaId');
     if (response.data == null) {
       throw Exception('manga not found.');
     }
