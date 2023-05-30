@@ -28,7 +28,7 @@ class _RootApplicationState extends State<RootApplication> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.teal,
+            seedColor: const Color.fromARGB(255, 255, 186, 209),
           ),
           useMaterial3: true,
         ),

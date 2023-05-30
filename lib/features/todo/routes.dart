@@ -5,9 +5,9 @@ import 'pages/index.dart';
 
 GoRoute setupRoutes() {
   return GoRoute(
-    name: TodoListingPage.routeName,
-    path: TodoListingPage.routePath,
-    builder: (context, state) => const TodoListingPage(),
+    name: HomePage.routeName,
+    path: HomePage.routePath,
+    builder: (context, state) => const HomePage(),
     routes: [
       GoRoute(
         name: TodoDetailPage.routeName,

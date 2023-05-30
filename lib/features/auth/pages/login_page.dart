@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
       body: Center(
         child: FilledButton.tonalIcon(
           onPressed: () {
-            context.goNamed(TodoListingPage.routeName);
+            context.goNamed(HomePage.routeName);
           },
           icon: const Icon(Icons.arrow_right),
           label: const Text('Get Started'),
