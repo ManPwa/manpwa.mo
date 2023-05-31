@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:manpwa/api/entities/manga_response.dart';
 
 import './index.dart';
+import 'chapter.dart';
 import 'manga.dart';
 
 part 'serializers.g.dart';
@@ -15,7 +16,8 @@ part 'serializers.g.dart';
 const List<Type> _registeredTypes = [
   Todo,
   Manga,
-  MangaResponse
+  MangaResponse,
+  Chapter,
 ];
 
 /// Addition builder factories, if needed.

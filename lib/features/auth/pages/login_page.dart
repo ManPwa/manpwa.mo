@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../todo/index.dart';
+import '../../manga/index.dart';
 
 class LoginPage extends StatelessWidget {
   static const routeName = 'auth/login';

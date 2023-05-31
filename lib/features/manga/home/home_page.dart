@@ -11,7 +11,7 @@ import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:manpwa/features/todo/pages/manga_detail_page.dart';
+import 'package:manpwa/features/manga/home/manga_detail_page.dart';
 
 import '../../../api/entities/manga.dart';
 import '../../../api/entities/manga_response.dart';
@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -513,7 +514,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ),
                                           Text(
-                                            "Chapter ${(mangaList?.manga_list[index].latest_chapter ?? 0).toStringAsFixed(0)}",
+                                            "Chapter ${(mangaList?.manga_list[index].latest_chapter ?? 0).toString().replaceAll(regex, '')}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: const TextStyle(

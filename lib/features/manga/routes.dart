@@ -1,7 +1,8 @@
 import 'package:go_router/go_router.dart';
-import 'package:manpwa/features/todo/pages/manga_detail_page.dart';
+import 'package:manpwa/features/manga/home/chapter_page.dart';
+import 'package:manpwa/features/manga/home/manga_detail_page.dart';
 
-import 'pages/index.dart';
+import 'home/index.dart';
 
 GoRoute setupRoutes() {
   return GoRoute(
@@ -16,6 +17,17 @@ GoRoute setupRoutes() {
           final mangaId = state.pathParameters[MangaDetailPage.kMangaIdParam]!;
           return MangaDetailPage(mangaId: mangaId);
         },
+        routes: [
+          GoRoute(
+            name: ChapterPage.routeName,
+            path: ChapterPage.routePath,
+            builder: (context, state) {
+              final mangaId =
+                  state.pathParameters[ChapterPage.kMangaIdParam]!;
+              return ChapterPage(mangaId: mangaId);
+            },
+          ),
+        ],
       ),
     ],
   );

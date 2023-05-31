@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/todo/index.dart' as feat_todo;
+import 'features/manga/index.dart' as feat_todo;
 import 'features/auth/index.dart' as feat_auth;
 
 final GoRouter rootRouter = GoRouter(

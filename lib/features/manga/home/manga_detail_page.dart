@@ -6,11 +6,13 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:manpwa/api/entities/manga.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../api/index.dart';
 import '../../../api/requests/manga_api.dart';
+import 'chapter_page.dart';
 
 class MangaDetailPage extends StatefulWidget {
   static const routeName = 'manga/detail';
@@ -29,16 +31,20 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
+          forceMaterialTransparency: true,
+          scrolledUnderElevation: 250,
           automaticallyImplyLeading: false,
           leading: IconButton(
-            color: Colors.black,
+            color: Colors.white,
             onPressed: () {
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back_ios),
           ),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          backgroundColor: Color.fromARGB(0, 255, 255, 255),
+          elevation: 0,
         ),
         body: RemoterQuery<Manga>(
             remoterKey: jsonEncode(['detail_manga', 'item']),
@@ -89,7 +95,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                   children: [
                     Stack(children: [
                       SizedBox(
-                          height: 200,
+                          height: 250,
                           child: Stack(
                             children: [
                               SizedBox(
@@ -126,7 +132,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                           )),
                       Container(
                         padding: const EdgeInsets.only(
-                            left: 20.0, top: 50, right: 20),
+                            left: 20.0, top: 100, right: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -170,7 +176,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                     height: 60,
                                     child: Text(
                                       manga.title ?? 'NaN',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 19,
                                           fontWeight: FontWeight.bold),
@@ -178,60 +184,70 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                       maxLines: 2,
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.star_rounded,
                                         color: Colors.yellow,
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       Text(
                                         (manga.average_rating ?? "NaN")
                                             .toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.white, fontSize: 14),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     "${manga.year ?? 'NaN'}, ${manga.status ?? 'NaN'}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 13,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
-                                  SizedBox(height: 5),
+                                  const SizedBox(height: 5),
                                   Text(
                                     manga.author ?? 'NaN',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 13,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
-                                  SizedBox(height: 15),
+                                  const SizedBox(height: 15),
                                   Row(
                                     children: [
                                       ElevatedButton(
-                                          onPressed: () => {print("read")},
-                                          child: Text("READ NOW"),
+                                          onPressed: () => {
+                                                context.pushNamed(
+                                                  ChapterPage.routeName,
+                                                  pathParameters: {
+                                                    ChapterPage
+                                                            .kMangaIdParam:
+                                                        widget.mangaId,
+                                                  },
+                                                )
+                                              },
                                           style: ButtonStyle(
                                               shape: MaterialStateProperty.all<
                                                       RoundedRectangleBorder>(
                                                   RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10.0),
-                                          )))),
+                                          ))),
+                                          child: const Text("READ NOW")),
                                       IconButton(
                                         onPressed: () => {print("follow")},
                                         icon: const Icon(
                                             Icons.favorite_border_outlined),
-                                        color: Color.fromARGB(255, 150, 10, 63),
+                                        color: const Color.fromARGB(
+                                            255, 150, 10, 63),
                                       )
                                     ],
                                   ),
@@ -243,8 +259,9 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                       ),
                     ]),
                     Container(
-                      margin: EdgeInsets.only(top: 20, left: 20, right: 20),
-                      padding: EdgeInsets.all(20),
+                      margin:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
+                      padding: const EdgeInsets.all(20),
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -273,7 +290,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                           const SizedBox(height: 15),
                           ReadMoreText(
                             manga.description ?? 'NaN',
-                            style: TextStyle(color: Colors.black, fontSize: 13),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 13),
                             trimLines: 3,
                             colorClickableText: Colors.pink,
                             trimMode: TrimMode.Line,
@@ -292,8 +310,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.all(20),
-                        padding: EdgeInsets.all(20),
+                        margin: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -329,7 +347,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               manga.title ?? 'NaN',
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
                             const Text(
@@ -341,7 +359,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               manga.tags?.join(", ") ?? 'NaN',
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
                             const Text(
@@ -353,7 +371,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               (manga.year ?? 'NaN').toString(),
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
                             const Text(
@@ -365,7 +383,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               manga.status ?? 'NaN',
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
                             const Text(
@@ -377,7 +395,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               manga.author ?? 'NaN',
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
                             const Text(
@@ -389,7 +407,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               manga.demographic ?? 'NaN',
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
                             const Text(
@@ -401,7 +419,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                             Text(
                               manga.original_language ?? 'NaN',
-                              style: TextStyle(fontSize: 13),
+                              style: const TextStyle(fontSize: 13),
                             ),
                           ],
                         )),
