@@ -8,6 +8,7 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Chapter.serializer)
+      ..add(ChapterImage.serializer)
       ..add(Manga.serializer)
       ..add(MangaResponse.serializer)
       ..add(Todo.serializer)

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:manpwa/api/entities/manga_response.dart';
 
 import './index.dart';
+import 'chapter_image.dart';
 import 'chapter.dart';
 import 'manga.dart';
 
@@ -18,6 +19,7 @@ const List<Type> _registeredTypes = [
   Manga,
   MangaResponse,
   Chapter,
+  ChapterImage
 ];
 
 /// Addition builder factories, if needed.

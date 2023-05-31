@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
 import '../../../api/entities/chapter.dart';
 import '../../../api/requests/chapter_api.dart';
+import 'chapter_image_page.dart';
 
 class ChapterPage extends StatefulWidget {
   static const routeName = 'chapter/list';
@@ -28,7 +30,7 @@ class _ChapterPageState extends State<ChapterPage> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text("Chapter list"),
+          title: const Text("Chapter list"),
           leading: IconButton(
             color: Colors.black,
             onPressed: () {
@@ -97,7 +99,13 @@ class _ChapterPageState extends State<ChapterPage> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => {
-                        print(new_chapter_list[index].chapter.toString())
+                        context.pushNamed(
+                          ChapterImagePage.routeName,
+                          pathParameters: {
+                            ChapterImagePage.kChapterIdParam: new_chapter_list[index].id ?? "",
+                            ChapterPage.kMangaIdParam: widget.mangaId,
+                          },
+                        )
                       },
                       child: Container(
                         padding: EdgeInsets.only(top: 15, left: 15, right: 15),

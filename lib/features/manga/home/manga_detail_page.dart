@@ -32,20 +32,20 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          forceMaterialTransparency: true,
-          scrolledUnderElevation: 250,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            color: Colors.white,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
-          backgroundColor: Color.fromARGB(0, 255, 255, 255),
-          elevation: 0,
-        ),
+        // appBar: AppBar(
+        //   forceMaterialTransparency: true,
+        //   scrolledUnderElevation: 250,
+        //   automaticallyImplyLeading: false,
+        //   leading: IconButton(
+        //     color: Colors.white,
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //     icon: const Icon(Icons.arrow_back_ios),
+        //   ),
+        //   backgroundColor: Color.fromARGB(0, 255, 255, 255),
+        //   elevation: 0,
+        // ),
         body: RemoterQuery<Manga>(
             remoterKey: jsonEncode(['detail_manga', 'item']),
             execute: () async {

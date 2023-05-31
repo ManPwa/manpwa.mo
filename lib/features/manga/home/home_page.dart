@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Manpwa'),
+        title: const Text('ManPwa'),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: SingleChildScrollView(
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                 execute: () async {
                   final mangaApi2 = GetIt.I.get<MangaApi>();
                   final response = await mangaApi2.getMangaList(
-                      {"limit": 8, "sort": '{"average_rating": -1}'});
+                      {"limit": 9, "sort": '{"average_rating": -1}'});
                   return response;
                 },
                 disabled: false,
