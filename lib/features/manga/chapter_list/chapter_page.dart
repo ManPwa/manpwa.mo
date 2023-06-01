@@ -8,7 +8,7 @@ import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
 import '../../../api/entities/chapter.dart';
 import '../../../api/requests/chapter_api.dart';
-import 'chapter_image_page.dart';
+import '../read_chapter/chapter_image_page.dart';
 
 class ChapterPage extends StatefulWidget {
   static const routeName = 'chapter/list';
@@ -41,7 +41,7 @@ class _ChapterPageState extends State<ChapterPage> {
           backgroundColor: Colors.white,
         ),
         body: RemoterQuery<List<Chapter>>(
-            remoterKey: jsonEncode(['chapter', 'list']),
+            remoterKey: jsonEncode(['chapter', 'list', widget.mangaId]),
             execute: () async {
               final chapterApi = GetIt.I.get<ChapterApi>();
               final response =

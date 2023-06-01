@@ -33,7 +33,7 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
       ),
       child: Scaffold(
           body: RemoterQuery<List<ChapterImage>>(
-              remoterKey: jsonEncode(['chapter-image', 'list']),
+              remoterKey: jsonEncode(['chapter-image', 'list', widget.chapterId]),
               execute: () async {
                 final imageApi = GetIt.I.get<ChapterImageApi>();
                 final response = await imageApi.getChapterImageList(

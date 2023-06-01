@@ -12,7 +12,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../../api/index.dart';
 import '../../../api/requests/manga_api.dart';
-import 'chapter_page.dart';
+import '../chapter_list/chapter_page.dart';
 
 class MangaDetailPage extends StatefulWidget {
   static const routeName = 'manga/detail';
@@ -47,7 +47,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
         //   elevation: 0,
         // ),
         body: RemoterQuery<Manga>(
-            remoterKey: jsonEncode(['detail_manga', 'item']),
+            remoterKey: jsonEncode(['detail_manga', 'item', widget.mangaId]),
             execute: () async {
               final mangaApi = GetIt.I.get<MangaApi>();
               final response = await mangaApi.getMangaItem(widget.mangaId);

@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:ffi';
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -11,12 +8,14 @@ import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:manpwa/features/manga/home/manga_detail_page.dart';
-
-import '../../../api/entities/manga.dart';
+import 'package:manpwa/features/manga/home/search.dart';
+import 'package:manpwa/features/manga/manga_detail/manga_detail_page.dart';
 import '../../../api/entities/manga_response.dart';
-import '../../../api/index.dart';
 import '../../../api/requests/manga_api.dart';
+import '../manga_list/manga_list_page.dart';
+import 'home_header.dart';
+import 'manga_grid_view.dart';
+import 'manga_grid_view_item.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = 'manga/listing';
@@ -37,7 +36,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('ManPwa'),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Colors.white,
+        actions: [
+            IconButton(
+              color: Colors.black,
+              onPressed: () {
+                showSearch(context: context, delegate: MySearchDelegate());
+              },
+              icon: const Icon(Icons.search),
+            ),
+          ]
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -90,46 +98,7 @@ class _HomePageState extends State<HomePage> {
                   }
                   return Column(
                     children: [
-                      Container(
-                        margin:
-                            const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Text('Top rated',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1),
-                            GestureDetector(
-                              onTap: () {
-                                print("Show more was tapped");
-                              },
-                              child: Container(
-                                child: const Row(
-                                  children: [
-                                    Text('Show more',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 13,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1),
-                                    SizedBox(width: 5),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 13.0,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      homeHeader(context, 'Top rated'),
                       GestureDetector(
                         onTap: () {
                           context.pushNamed(
@@ -305,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                                                     },
                                                     errorWidget:
                                                         (context, url, error) =>
-                                                            Icon(Icons.error),
+                                                            const Icon(Icons.error),
                                                   ),
                                                 ),
                                               ],
@@ -343,7 +312,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 20),
               RemoterQuery<MangaResponse>(
-                remoterKey: jsonEncode(['updated_manga', 'list1']),
+                remoterKey: jsonEncode(['updated_manga', 'list']),
                 execute: () async {
                   final mangaApi = GetIt.I.get<MangaApi>();
                   final response = await mangaApi
@@ -392,45 +361,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(bottom: 5.0, top: 20.0),
                     child: Column(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 20, right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const Text('Recently Updated',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1),
-                              GestureDetector(
-                                onTap: () {
-                                  print("Show more was tapped");
-                                },
-                                child: Container(
-                                  child: const Row(
-                                    children: [
-                                      Text('Show more',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1),
-                                      SizedBox(width: 5),
-                                      Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 13.0,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        homeHeader(context, 'Recently Updated'),
                         Container(
                           margin: const EdgeInsets.only(left: 15),
                           child: SizedBox(
@@ -535,7 +466,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               RemoterQuery<MangaResponse>(
-                remoterKey: jsonEncode(['most_popular', 'list3']),
+                remoterKey: jsonEncode(['most_popular', 'list']),
                 execute: () async {
                   final mangaApi3 = GetIt.I.get<MangaApi>();
                   final response = await mangaApi3
@@ -582,157 +513,8 @@ class _HomePageState extends State<HomePage> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Text('Most following',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1),
-                            GestureDetector(
-                              onTap: () {
-                                print("Show more was tapped");
-                              },
-                              child: const Row(
-                                  children: [
-                                    Text('Show more',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 13,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1),
-                                    SizedBox(width: 5),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 13.0,
-                                    )
-                                  ],
-                                ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: SingleChildScrollView(
-                          child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3, childAspectRatio: 0.6),
-                              itemCount: mangaList?.manga_list.length,
-                              itemBuilder: (BuildContext c, int index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    context.pushNamed(
-                                      MangaDetailPage.routeName,
-                                      pathParameters: {
-                                        MangaDetailPage.kMangaIdParam:
-                                            '${mangaList?.manga_list[index].id}',
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 180,
-                                    margin: const EdgeInsets.only(
-                                        bottom: 15.0, right: 15.0, top: 15.0),
-                                    child: Stack(
-                                        alignment: Alignment.bottomCenter,
-                                        children: [
-                                          CachedNetworkImage(
-                                            imageUrl: mangaList?.manga_list[index]
-                                                    .cover_art_url ??
-                                                '',
-                                            fit: BoxFit.contain,
-                                            imageBuilder:
-                                                (context, imageProvider) =>
-                                                    Container(
-                                              width: 120,
-                                              height: 200,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.3),
-                                                    spreadRadius: 2,
-                                                    blurRadius: 5,
-                                                    offset: const Offset(0, 3), // changes position of shadow
-                                                  ),
-                                                ],
-                                                image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover),
-                                              ),
-                                            ),
-                                            placeholder: (context, url) {
-                                              return const Center(
-                                                  child:
-                                                      CircularProgressIndicator());
-                                            },
-                                            errorWidget: (context, url, error) =>
-                                                const Icon(Icons.error),
-                                          ),
-                                          Container(
-                                            height: 45,
-                                            child: Stack(children: [
-                                              ClipRRect(
-                                                // Clip it cleanly.
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        bottomLeft:
-                                                            Radius.circular(10),
-                                                        bottomRight:
-                                                            Radius.circular(10)),
-                                                child: BackdropFilter(
-                                                  filter: ImageFilter.blur(
-                                                      sigmaX: 10, sigmaY: 10),
-                                                  child: Container(
-                                                    color: Colors.black
-                                                        .withOpacity(0.2),
-                                                  ),
-                                                ),
-                                              ),
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 7, right: 7),
-                                                    child: Text(
-                                                        mangaList
-                                                                ?.manga_list[
-                                                                    index]
-                                                                .title ??
-                                                            '',
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12,
-                                                        ),
-                                                        overflow:
-                                                            TextOverflow.ellipsis,
-                                                        maxLines: 2,
-                                                        textAlign: TextAlign.center,
-                                                      ),
-                                                  ))
-                                            ]),
-                                          ),
-                                        ]),
-                                  ),
-                                );
-                              }),
-                        ),
-                      ),
+                      homeHeader(context, 'Most following'),
+                      mangaGridView(context, mangaList?.manga_list)
                     ],
                   );
                 },
