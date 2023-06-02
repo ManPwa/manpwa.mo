@@ -1,9 +1,4 @@
-import 'dart:developer';
-
-import 'package:built_collection/built_collection.dart';
-
 import '../../lib_wrappers/index.dart';
-import '../entities/index.dart';
 import '../entities/manga.dart';
 import '../entities/manga_response.dart';
 

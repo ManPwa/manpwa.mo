@@ -1,11 +1,4 @@
-import 'dart:developer';
-
-import 'package:built_collection/built_collection.dart';
-
 import '../../lib_wrappers/index.dart';
-import '../entities/index.dart';
-import '../entities/manga.dart';
-import '../entities/manga_response.dart';
 import '../entities/user.dart';
 
 class UserApi {
@@ -29,6 +22,20 @@ class UserApi {
     if (response.statusCode == 401) {
       throw Exception('Email or password is incorrect!');
     }
+    return response;
+  }
+
+  Future register({
+    required String username,
+    required String email,
+    required String password
+  }) async {
+    var data = {
+      "username": username,
+      "email": email,
+      "password": password
+    };
+    final response = await access.post('api/user/register', data: data);
     return response;
   }
 }

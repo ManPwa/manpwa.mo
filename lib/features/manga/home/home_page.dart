@@ -31,7 +31,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: homeDrawer(context),
+      drawer: Drawer(
+        child: homeDrawer(context)
+      ),
       appBar: AppBar(
           title: const Text('ManPwa'),
           backgroundColor: Colors.white,

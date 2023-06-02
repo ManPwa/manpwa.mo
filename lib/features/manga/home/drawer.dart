@@ -41,49 +41,45 @@ Widget homeDrawer(BuildContext context) {
       });
 }
 
-Drawer unauthorizedDrawer(BuildContext context) {
-  return Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        const DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.blue,
-          ),
-          child: Text('Drawer Header'),
+ListView unauthorizedDrawer(BuildContext context) {
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
         ),
-        ListTile(
-          title: const Text('Login'),
-          onTap: () {
-            context.pushNamed(
-                  LoginPage.routeName,
-                );
-          },
-        ),
-      ],
-    ),
+        child: Text('Drawer Header'),
+      ),
+      ListTile(
+        title: const Text('Login'),
+        onTap: () {
+          context.pushNamed(
+                LoginPage.routeName,
+              );
+        },
+      ),
+    ],
   );
 }
 
-Drawer authorizedDrawer(BuildContext context) {
-  return Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        const DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.blue,
-          ),
-          child: Text('Drawer Header'),
+ListView authorizedDrawer(BuildContext context) {
+  return ListView(
+    padding: EdgeInsets.zero,
+    children: [
+      const DrawerHeader(
+        decoration: BoxDecoration(
+          color: Colors.blue,
         ),
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () async {
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString('token', "");
-          },
-        ),
-      ],
-    ),
+        child: Text('Drawer Header'),
+      ),
+      ListTile(
+        title: const Text('Logout'),
+        onTap: () async {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', "");
+        },
+      ),
+    ],
   );
 }

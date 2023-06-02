@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:manpwa/features/auth/pages/register_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../api/requests/user_api.dart';
@@ -30,7 +32,7 @@ class LoginPage extends StatelessWidget {
         elevation: 0,
       ),
       backgroundColor: Colors.black,
-      body: LoginScreen(),
+      body: const LoginScreen(),
     );
   }
 }
@@ -128,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: usernameController, // Controller for Username
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: "Username",
+                        hintText: "Email",
                         contentPadding: EdgeInsets.all(20)),
                     onEditingComplete: () => FocusScope.of(context).nextFocus(),
                   ),
@@ -170,7 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 70,
               padding: EdgeInsets.only(top: 20),
               child: ElevatedButton(
-                  child: const Text("Submit", style: TextStyle(color: Colors.black)),
+                  child: const Text("Submit",
+                      style: TextStyle(color: Colors.black)),
                   onPressed: () async {
                     setState(() {
                       _isVisible = false;
@@ -210,7 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(
                               color: Colors.blue, fontWeight: FontWeight.bold),
                           recognizer: new TapGestureRecognizer()
-                            ..onTap = () => print("hi register")),
+                            ..onTap = () => context.pushNamed(
+                                  RegisterPage.routeName,
+                                )),
                     ],
                   ),
                 )))

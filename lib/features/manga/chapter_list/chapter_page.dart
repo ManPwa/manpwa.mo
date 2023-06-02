@@ -130,7 +130,7 @@ class _ChapterPageState extends State<ChapterPage> {
                                       if (new_chapter_list[index].title !=
                                           null) {
                                         string2 =
-                                            "${new_chapter_list?[index].title ?? ''}";
+                                            new_chapter_list[index].title ?? '';
                                       }
                                       if (new_chapter_list[index].chapter !=
                                               null &&
