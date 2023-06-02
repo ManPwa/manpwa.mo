@@ -12,6 +12,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Manga.serializer)
       ..add(MangaResponse.serializer)
       ..add(Todo.serializer)
+      ..add(User.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Manga)]),
           () => new ListBuilder<Manga>())

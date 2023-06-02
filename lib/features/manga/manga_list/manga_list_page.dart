@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../api/entities/manga_response.dart';
 import '../../../api/requests/manga_api.dart';
 import '../home/manga_grid_view.dart';
-import '../home/manga_grid_view_item.dart';
-import '../manga_detail/manga_detail_page.dart';
 
 class MangaListPage extends StatefulWidget {
   static const routeName = 'manga/list';

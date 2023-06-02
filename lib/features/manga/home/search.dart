@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart';
 
 import '../../../api/entities/manga_response.dart';
 import '../../../api/requests/manga_api.dart';

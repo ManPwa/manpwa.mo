@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/manga/index.dart' as feat_todo;
-import 'features/auth/index.dart' as feat_auth;
+import 'features/manga/index.dart' as feat_home;
 
 final GoRouter rootRouter = GoRouter(
   debugLogDiagnostics: true,
@@ -11,10 +10,9 @@ final GoRouter rootRouter = GoRouter(
       path: '/',
       builder: (context, state) => Container(),
       redirect: (context, state) =>
-          state.fullPath == '/' ? '/auth/login' : null,
+          state.fullPath == '/' ? '/manga' : null,
       routes: <RouteBase>[
-        feat_auth.setupRoutes(),
-        feat_todo.setupRoutes(),
+        feat_home.setupRoutes(),
       ],
     ),
   ],

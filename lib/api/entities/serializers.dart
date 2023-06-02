@@ -5,6 +5,7 @@ import 'package:built_value/standard_json_plugin.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:manpwa/api/entities/manga_response.dart';
+import 'package:manpwa/api/entities/user.dart';
 
 import './index.dart';
 import 'chapter_image.dart';
@@ -19,7 +20,8 @@ const List<Type> _registeredTypes = [
   Manga,
   MangaResponse,
   Chapter,
-  ChapterImage
+  ChapterImage,
+  User
 ];
 
 /// Addition builder factories, if needed.

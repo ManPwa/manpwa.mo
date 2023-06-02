@@ -12,11 +12,9 @@ import 'package:manpwa/features/manga/home/search.dart';
 import 'package:manpwa/features/manga/manga_detail/manga_detail_page.dart';
 import '../../../api/entities/manga_response.dart';
 import '../../../api/requests/manga_api.dart';
-import '../manga_list/manga_list_page.dart';
+import 'drawer.dart';
 import 'home_header.dart';
 import 'manga_grid_view.dart';
-import 'manga_grid_view_item.dart';
-
 class HomePage extends StatefulWidget {
   static const routeName = 'manga/listing';
   static const routePath = 'manga';
@@ -33,11 +31,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: homeDrawer(context),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('ManPwa'),
-        backgroundColor: Colors.white,
-        actions: [
+          title: const Text('ManPwa'),
+          backgroundColor: Colors.white,
+          actions: [
             IconButton(
               color: Colors.black,
               onPressed: () {
@@ -45,8 +43,7 @@ class _HomePageState extends State<HomePage> {
               },
               icon: const Icon(Icons.search),
             ),
-          ]
-      ),
+          ]),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -64,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.status == RemoterStatus.fetching) {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height,
-                        child: const Center(child: CircularProgressIndicator()));
+                        child:
+                            const Center(child: CircularProgressIndicator()));
                   }
                   if (snapshot.status == RemoterStatus.error) {
                     final error = snapshot.error;
@@ -104,7 +102,8 @@ class _HomePageState extends State<HomePage> {
                           context.pushNamed(
                             MangaDetailPage.routeName,
                             pathParameters: {
-                              MangaDetailPage.kMangaIdParam: '${mangaList?.manga_list[currentIndex].id}',
+                              MangaDetailPage.kMangaIdParam:
+                                  '${mangaList?.manga_list[currentIndex].id}',
                             },
                           );
                         },
@@ -272,9 +271,9 @@ class _HomePageState extends State<HomePage> {
                                                           child:
                                                               CircularProgressIndicator());
                                                     },
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            const Icon(Icons.error),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
                                                   ),
                                                 ),
                                               ],
@@ -324,7 +323,8 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.status == RemoterStatus.fetching) {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height,
-                        child: const Center(child: CircularProgressIndicator()));
+                        child:
+                            const Center(child: CircularProgressIndicator()));
                   }
                   if (snapshot.status == RemoterStatus.error) {
                     final error = snapshot.error;
@@ -358,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                   }
                   return Container(
                     color: HexColor("#f5f5f5"),
-                    padding: const EdgeInsets.only(bottom: 5.0, top: 20.0),
+                    padding: const EdgeInsets.only(bottom: 5.0),
                     child: Column(
                       children: [
                         homeHeader(context, 'Recently Updated'),
@@ -413,7 +413,8 @@ class _HomePageState extends State<HomePage> {
                                                           .withOpacity(0.3),
                                                       spreadRadius: 2,
                                                       blurRadius: 5,
-                                                      offset: const Offset(0, 3), // changes position of shadow
+                                                      offset: const Offset(0,
+                                                          3), // changes position of shadow
                                                     ),
                                                   ],
                                                   image: DecorationImage(
@@ -434,8 +435,8 @@ class _HomePageState extends State<HomePage> {
                                           SizedBox(
                                             width: 110,
                                             child: Text(
-                                              mangaList
-                                                      ?.manga_list[index].title ??
+                                              mangaList?.manga_list[index]
+                                                      .title ??
                                                   '',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
@@ -478,7 +479,8 @@ class _HomePageState extends State<HomePage> {
                   if (snapshot.status == RemoterStatus.fetching) {
                     return SizedBox(
                         height: MediaQuery.of(context).size.height,
-                        child: const Center(child: CircularProgressIndicator()));
+                        child:
+                            const Center(child: CircularProgressIndicator()));
                   }
                   if (snapshot.status == RemoterStatus.error) {
                     final error = snapshot.error;

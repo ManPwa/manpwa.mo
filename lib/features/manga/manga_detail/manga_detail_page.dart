@@ -2,15 +2,12 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:manpwa/api/entities/manga.dart';
 import 'package:readmore/readmore.dart';
-
-import '../../../api/index.dart';
 import '../../../api/requests/manga_api.dart';
 import '../chapter_list/chapter_page.dart';
 

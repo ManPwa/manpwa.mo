@@ -5,7 +5,7 @@ import '../manga_list/manga_list_page.dart';
 
 Container homeHeader(BuildContext context, String title) {
   return Container(
-    padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+    padding: const EdgeInsets.only(left: 20, right: 20, top: 20.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.end,

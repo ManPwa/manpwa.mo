@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manpwa/features/manga/manga_detail/manga_detail_page.dart';
 import '../../../api/entities/manga.dart';
 
 Container mangaGridViewItem(Manga? manga) {

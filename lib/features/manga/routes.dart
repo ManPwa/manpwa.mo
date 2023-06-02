@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:manpwa/features/manga/chapter_list/chapter_page.dart';
 import 'package:manpwa/features/manga/manga_detail/manga_detail_page.dart';
 
+import '../auth/pages/login_page.dart';
 import 'manga_list/manga_list_page.dart';
 import 'read_chapter/chapter_image_page.dart';
 import 'home/index.dart';
@@ -49,6 +50,13 @@ GoRoute setupRoutes() {
           final mangaListType =
               state.pathParameters[MangaListPage.kMangaListTypeParam]!;
           return MangaListPage(mangaListType: mangaListType);
+        },
+      ),
+      GoRoute(
+        name: LoginPage.routeName,
+        path: LoginPage.routePath,
+        builder: (context, state) {
+          return LoginPage();
         },
       ),
     ],
