@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,11 +29,29 @@ class RegisterPage extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back_rounded),
         ),
-        backgroundColor: Color.fromARGB(0, 255, 255, 255),
         elevation: 0,
       ),
       backgroundColor: Colors.black,
-      body: SignupPageContent(),
+      body: Stack(
+        children: [
+          const Image(
+            image: AssetImage('assets/background.jpg'),
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                color: Colors.black.withOpacity(0.3),
+                alignment: Alignment.center,
+              ),
+            ),
+          ),
+          SignupPageContent(),
+        ],
+      ),
     );
   }
 }
@@ -231,6 +252,16 @@ class _SignupPageContent extends State<SignupPageContent> {
                           username: usernameController.text,
                           email: emailController.text,
                           password: passwordController1.text);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      Fluttertoast.showToast(
+                          msg: "Register successfull",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     } catch (e) {
                       setState(() {
                         returnVisibilityString = e.toString();

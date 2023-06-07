@@ -296,11 +296,13 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             trimExpandedText: ' show less',
                             moreStyle: const TextStyle(
                               fontSize: 13,
-                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.grey,
                             ),
                             lessStyle: const TextStyle(
                               fontSize: 13,
-                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.grey,
                             ),
                           ),
                         ],

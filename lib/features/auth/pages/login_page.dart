@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:manpwa/features/auth/pages/register_page.dart';
@@ -31,8 +34,27 @@ class LoginPage extends StatelessWidget {
         backgroundColor: Color.fromARGB(0, 255, 255, 255),
         elevation: 0,
       ),
-      backgroundColor: Colors.black,
-      body: const LoginScreen(),
+      // backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          const Image(
+            image: AssetImage('assets/background.jpg'),
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+          ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                color: Colors.black.withOpacity(0.3),
+                alignment: Alignment.center,
+              ),
+            ),
+          ),
+          const LoginScreen(),
+        ],
+      ),
     );
   }
 }
@@ -188,6 +210,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       SharedPreferences.setMockInitialValues({});
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setString('token', token);
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context);
+                      Fluttertoast.showToast(
+                          msg: "Login successfull",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 2,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     } catch (e) {
                       setState(() {
                         _isVisible = true;
@@ -211,7 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextSpan(
                           text: " Register here",
                           style: TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.bold),
+                              color: const Color.fromARGB(255, 98, 185, 255), fontWeight: FontWeight.bold),
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () => context.pushNamed(
                                   RegisterPage.routeName,

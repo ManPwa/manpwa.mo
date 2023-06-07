@@ -53,6 +53,7 @@ dependencies:
   readmore: ^2.2.0
   intl: ^0.18.1
   shared_preferences: ^2.1.1
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:
@@ -111,3 +112,4 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - .env
+    - assets/background.jpg
