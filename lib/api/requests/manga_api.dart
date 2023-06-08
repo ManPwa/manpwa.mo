@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../../lib_wrappers/index.dart';
 import '../entities/manga.dart';
 import '../entities/manga_response.dart';
@@ -10,6 +12,11 @@ class MangaApi {
   Future<MangaResponse> getMangaList(
       Map<String, dynamic> params) async {
     final response = await access.fetch('api/manga', queryParameters: params);
+    return MangaResponse.fromJson(response.data);
+  }
+
+  Future<MangaResponse> getFollowingMangaList({ required String token }) async {
+    final response = await access.fetch('api/following-manga', headers: {"Authorization": "Bearer $token"});
     return MangaResponse.fromJson(response.data);
   }
 

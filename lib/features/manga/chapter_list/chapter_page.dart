@@ -29,15 +29,7 @@ class _ChapterPageState extends State<ChapterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           title: const Text("Chapter list"),
-          leading: IconButton(
-            color: Colors.black,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
           backgroundColor: Colors.white,
         ),
         body: RemoterQuery<List<Chapter>>(

@@ -4,10 +4,14 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:manpwa/api/entities/manga.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../api/entities/follow.dart';
+import '../../../api/requests/follow_api.dart';
 import '../../../api/requests/manga_api.dart';
 import '../chapter_list/chapter_page.dart';
 
@@ -225,8 +229,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                                 context.pushNamed(
                                                   ChapterPage.routeName,
                                                   pathParameters: {
-                                                    ChapterPage
-                                                            .kMangaIdParam:
+                                                    ChapterPage.kMangaIdParam:
                                                         widget.mangaId,
                                                   },
                                                 )
@@ -239,13 +242,16 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                                 BorderRadius.circular(10.0),
                                           ))),
                                           child: const Text("READ NOW")),
-                                      IconButton(
-                                        onPressed: () => {print("follow")},
-                                        icon: const Icon(
-                                            Icons.favorite_border_outlined),
-                                        color: const Color.fromARGB(
-                                            255, 150, 10, 63),
-                                      )
+                                      // IconButton(
+                                      //   onPressed: () => {print("follow")},
+                                      //   icon: const Icon(
+                                      //       Icons.favorite_border_outlined),
+                                      //   color: const Color.fromARGB(
+                                      //       255, 150, 10, 63),
+                                      // )
+                                      Expanded(child: Container(
+                                        padding: EdgeInsets.only(left: 10, right: 10),
+                                        child: follow(widget.mangaId)))
                                     ],
                                   ),
                                 ],
@@ -426,5 +432,79 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                 ),
               );
             }));
+  }
+
+  Widget follow(String mangaId) {
+    return RemoterQuery<Follow>(
+        remoterKey: jsonEncode(['follow', 'item', mangaId]),
+        execute: () async {
+          final followApi = GetIt.I.get<FollowApi>();
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token') ?? '';
+          final response =
+              await followApi.getFollowItem(mangaId: mangaId, token: token);
+          return response;
+        },
+        disabled: false,
+        builder: (context, snapshot, utils) {
+          if (snapshot.status == RemoterStatus.fetching) {
+            return IconButton(
+              onPressed: () => {
+                followManga(mangaId),
+                utils.refetch()
+                },
+              icon: const Icon(Icons.favorite_border_outlined),
+              color: const Color.fromARGB(255, 150, 10, 63),
+            );
+          }
+          if (snapshot.status == RemoterStatus.error) {
+            return IconButton(
+              onPressed: () => {
+                followManga(mangaId),
+                utils.refetch()
+                },
+              icon: const Icon(Icons.favorite_border_outlined),
+              color: const Color.fromARGB(255, 150, 10, 63),
+            );
+          }
+
+          final follow = snapshot.data;
+          if (follow == null || follow.is_following == false) {
+            return IconButton(
+              onPressed: () => {
+                followManga(mangaId),
+                utils.refetch()
+                },
+              icon: const Icon(Icons.favorite_border_outlined),
+              color: const Color.fromARGB(255, 150, 10, 63),
+            );
+          }
+          return IconButton(
+            onPressed: () => {
+              followManga(mangaId),
+              utils.refetch()
+            },
+            icon: const Icon(Icons.favorite),
+            color: const Color.fromARGB(255, 150, 10, 63),
+          );
+        });
+  }
+
+  void followManga(String mangaId) async {
+    final followApi = GetIt.I.get<FollowApi>();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+    try {
+      await followApi.followManga(mangaId: mangaId, token: token);
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Login to follow this manga",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Color.fromARGB(166, 0, 0, 0),
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 }

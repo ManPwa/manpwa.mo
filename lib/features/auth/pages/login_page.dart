@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.black,
+                          backgroundColor: Color.fromARGB(166, 0, 0, 0),
                           textColor: Colors.white,
                           fontSize: 16.0);
                     } catch (e) {

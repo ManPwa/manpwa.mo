@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api/entities/user.dart';
 import '../../../api/requests/user_api.dart';
 import '../../auth/pages/login_page.dart';
+import '../manga_list/manga_list_page.dart';
 
 Widget homeDrawer(BuildContext context) {
   return RemoterQuery<User>(
@@ -72,6 +73,17 @@ ListView authorizedDrawer(BuildContext context) {
           color: Colors.blue,
         ),
         child: Text('Drawer Header'),
+      ),
+      ListTile(
+        title: const Text('Following'),
+        onTap: () async {
+          context.pushNamed(
+            MangaListPage.routeName,
+            pathParameters: {
+              MangaListPage.kMangaListTypeParam: "Following",
+            },
+          );
+        },
       ),
       ListTile(
         title: const Text('Logout'),

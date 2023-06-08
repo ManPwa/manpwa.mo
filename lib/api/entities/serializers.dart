@@ -10,6 +10,7 @@ import 'package:manpwa/api/entities/user.dart';
 import './index.dart';
 import 'chapter_image.dart';
 import 'chapter.dart';
+import 'follow.dart';
 import 'manga.dart';
 
 part 'serializers.g.dart';
@@ -21,7 +22,8 @@ const List<Type> _registeredTypes = [
   MangaResponse,
   Chapter,
   ChapterImage,
-  User
+  User,
+  Follow
 ];
 
 /// Addition builder factories, if needed.

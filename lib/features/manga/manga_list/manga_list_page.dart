@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../api/entities/manga_response.dart';
 import '../../../api/requests/manga_api.dart';
@@ -25,21 +26,13 @@ class _MangaListPageState extends State<MangaListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           title: Text(widget.mangaListType),
-          leading: IconButton(
-            color: Colors.black,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
           backgroundColor: Colors.white,
         ),
         body: RemoterQuery<MangaResponse>(
                 remoterKey: jsonEncode(['manga', 'list', widget.mangaListType]),
                 execute: () async {
-                  final mangaApi3 = GetIt.I.get<MangaApi>();
+                  final mangaApi = GetIt.I.get<MangaApi>();
                   String sort = "_created";
                   switch (widget.mangaListType) {
                     case "Most following":
@@ -51,8 +44,14 @@ class _MangaListPageState extends State<MangaListPage> {
                     case "Recently Updated":
                       sort = "_updated";
                       break;
+                    case "Following":
+                      final prefs = await SharedPreferences.getInstance();
+                      final token = prefs.getString('token') ?? '';
+                      final response = await mangaApi
+                          .getFollowingMangaList(token: token);
+                      return response;
                   }
-                  final response = await mangaApi3
+                  final response = await mangaApi
                       .getMangaList({"limit": 24, "sort": '{"$sort": -1}'});
                   return response;
                 },
@@ -90,7 +89,7 @@ class _MangaListPageState extends State<MangaListPage> {
                   final mangaList = snapshot.data;
                   if ((mangaList?.manga_list)?.isEmpty ?? true) {
                     return const Center(
-                      child: Text('No todo yet!'),
+                      child: Text('No manga'),
                     );
                   }
               return mangaGridView(context, mangaList?.manga_list);
