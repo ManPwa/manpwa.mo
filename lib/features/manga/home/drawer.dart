@@ -77,23 +77,16 @@ ListView authorizedDrawer(BuildContext context, User user, RemoterQueryUtils<Rem
         accountName: Text(user.username ?? ''),
         accountEmail: Text(user.email ?? ''),
         currentAccountPictureSize: const Size.square(70.0), 
-        currentAccountPicture: CachedNetworkImage(
-          imageUrl: user.avatar_url ?? 'NaN',
-          fit: BoxFit.contain,
-          imageBuilder: (context, imageProvider) => Container(
-            color: Colors.white,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+        currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+                child: Image.network(
+                  user.avatar_url ?? "https://res.cloudinary.com/dt9bzvzw9/image/upload/v1686499661/default_user_anvydm.png",
+                  fit: BoxFit.cover,
+                  width: 90,
+                  height: 90,
+                ),
+              ),
             ),
-          ),
-          placeholder: (context, url) {
-            return const Center(child: CircularProgressIndicator());
-          },
-          errorWidget: (context, url, error) => const CircleAvatar(
-            backgroundImage: AssetImage('assets/default_user.jpg'),
-          ),
-        ),
       ),
       ListTile(
         leading: const Icon(Icons.person_rounded),

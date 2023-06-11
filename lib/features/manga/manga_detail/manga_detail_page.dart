@@ -123,7 +123,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             children: [
                               SizedBox(
                                 child: CachedNetworkImage(
-                                  imageUrl: manga.cover_art_url ?? 'NaN',
+                                  imageUrl: manga.cover_art_url ?? 'N/A',
                                   fit: BoxFit.contain,
                                   imageBuilder: (context, imageProvider) =>
                                       Container(
@@ -160,7 +160,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CachedNetworkImage(
-                              imageUrl: manga.cover_art_url ?? 'NaN',
+                              imageUrl: manga.cover_art_url ?? 'N/A',
                               fit: BoxFit.contain,
                               imageBuilder: (context, imageProvider) =>
                                   Container(
@@ -198,7 +198,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   SizedBox(
                                     height: 60,
                                     child: Text(
-                                      manga.title ?? 'NaN',
+                                      manga.title ?? 'N/A',
                                       style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 19,
@@ -216,7 +216,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        ((manga.average_rating ?? "NaN")
+                                        ((manga.average_rating ?? "N/A")
                                                 .toString()
                                                 .replaceAll(regex, ''))
                                             .toString(),
@@ -227,7 +227,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   ),
                                   const SizedBox(height: 5),
                                   Text(
-                                    "${manga.year ?? 'NaN'}, ${manga.status ?? 'NaN'}",
+                                    "${manga.year ?? 'N/A'}, ${manga.status ?? 'N/A'}",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 13,
@@ -237,7 +237,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   ),
                                   const SizedBox(height: 5),
                                   Text(
-                                    manga.author ?? 'NaN',
+                                    manga.author ?? 'N/A',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 13,
@@ -297,7 +297,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                           ),
                           const SizedBox(height: 15),
                           ReadMoreText(
-                            manga.description ?? 'NaN',
+                            manga.description ?? 'N/A',
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 13),
                             trimLines: 3,
@@ -356,7 +356,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              manga.title ?? 'NaN',
+                              manga.title ?? 'N/A',
                               style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
@@ -368,7 +368,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              manga.tags?.join(", ") ?? 'NaN',
+                              manga.tags?.join(", ") ?? 'N/A',
                               style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
@@ -380,7 +380,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              (manga.year ?? 'NaN').toString(),
+                              (manga.year ?? 'N/A').toString(),
                               style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
@@ -392,7 +392,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              manga.status ?? 'NaN',
+                              manga.status ?? 'N/A',
                               style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
@@ -404,7 +404,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              manga.author ?? 'NaN',
+                              manga.author ?? 'N/A',
                               style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
@@ -416,7 +416,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              manga.demographic ?? 'NaN',
+                              manga.demographic ?? 'N/A',
                               style: const TextStyle(fontSize: 13),
                             ),
                             const SizedBox(height: 10),
@@ -428,7 +428,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              manga.original_language ?? 'NaN',
+                              manga.original_language ?? 'N/A',
                               style: const TextStyle(fontSize: 13),
                             ),
                           ],
@@ -534,7 +534,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
           if (snapshot.status == RemoterStatus.fetching) {
             return ElevatedButton(
               onPressed: () => {},
-              child: SizedBox(
+              child: const SizedBox(
                   height: 20, width: 20, child: CircularProgressIndicator()),
             );
           }

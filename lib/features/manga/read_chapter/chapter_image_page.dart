@@ -80,7 +80,7 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
                     itemCount: image_list?.length,
                     itemBuilder: (context, index) {
                       return CachedNetworkImage(
-                        imageUrl: image_list?[index].image_url ?? 'NaN',
+                        imageUrl: image_list?[index].image_url ?? 'N/A',
                         placeholder: (context, url) {
                           return const SizedBox(
                               height: 200,
