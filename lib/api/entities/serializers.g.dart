@@ -12,6 +12,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Follow.serializer)
       ..add(Manga.serializer)
       ..add(MangaResponse.serializer)
+      ..add(Rating.serializer)
       ..add(Todo.serializer)
       ..add(User.serializer)
       ..addBuilderFactory(

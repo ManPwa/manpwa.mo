@@ -11,8 +11,10 @@ import 'package:manpwa/api/entities/manga.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api/entities/follow.dart';
+import '../../../api/entities/rating.dart';
 import '../../../api/requests/follow_api.dart';
 import '../../../api/requests/manga_api.dart';
+import '../../../api/requests/rating_api.dart';
 import '../chapter_list/chapter_page.dart';
 
 class MangaDetailPage extends StatefulWidget {
@@ -29,6 +31,7 @@ class MangaDetailPage extends StatefulWidget {
 }
 
 class _MangaDetailPageState extends State<MangaDetailPage> {
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +50,25 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
         //   backgroundColor: Color.fromARGB(0, 255, 255, 255),
         //   elevation: 0,
         // ),
+        bottomNavigationBar: BottomAppBar(
+          surfaceTintColor: Colors.white,
+          shadowColor: Colors.black,
+          child: ElevatedButton(
+              onPressed: () => {
+                    context.pushNamed(
+                      ChapterPage.routeName,
+                      pathParameters: {
+                        ChapterPage.kMangaIdParam: widget.mangaId,
+                      },
+                    )
+                  },
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ))),
+              child: const Text("READ NOW")),
+        ),
         body: RemoterQuery<Manga>(
             remoterKey: jsonEncode(['detail_manga', 'item', widget.mangaId]),
             execute: () async {
@@ -194,7 +216,9 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        (manga.average_rating ?? "NaN")
+                                        ((manga.average_rating ?? "NaN")
+                                                .toString()
+                                                .replaceAll(regex, ''))
                                             .toString(),
                                         style: const TextStyle(
                                             color: Colors.white, fontSize: 14),
@@ -224,34 +248,15 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                   const SizedBox(height: 15),
                                   Row(
                                     children: [
-                                      ElevatedButton(
-                                          onPressed: () => {
-                                                context.pushNamed(
-                                                  ChapterPage.routeName,
-                                                  pathParameters: {
-                                                    ChapterPage.kMangaIdParam:
-                                                        widget.mangaId,
-                                                  },
-                                                )
-                                              },
-                                          style: ButtonStyle(
-                                              shape: MaterialStateProperty.all<
-                                                      RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ))),
-                                          child: const Text("READ NOW")),
-                                      // IconButton(
-                                      //   onPressed: () => {print("follow")},
-                                      //   icon: const Icon(
-                                      //       Icons.favorite_border_outlined),
-                                      //   color: const Color.fromARGB(
-                                      //       255, 150, 10, 63),
-                                      // )
-                                      Expanded(child: Container(
-                                        padding: EdgeInsets.only(left: 10, right: 10),
-                                        child: follow(widget.mangaId)))
+                                      Expanded(
+                                        child: Container(
+                                            child: follow(widget.mangaId)),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Expanded(
+                                        child: Container(
+                                            child: rating(widget.mangaId)),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -448,57 +453,183 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
         disabled: false,
         builder: (context, snapshot, utils) {
           if (snapshot.status == RemoterStatus.fetching) {
-            return IconButton(
-              onPressed: () => {
-                followManga(mangaId),
-                utils.refetch()
-                },
-              icon: const Icon(Icons.favorite_border_outlined),
-              color: const Color.fromARGB(255, 150, 10, 63),
+            return ElevatedButton(
+              onPressed: () => {},
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator()),
             );
           }
           if (snapshot.status == RemoterStatus.error) {
-            return IconButton(
-              onPressed: () => {
-                followManga(mangaId),
-                utils.refetch()
-                },
-              icon: const Icon(Icons.favorite_border_outlined),
-              color: const Color.fromARGB(255, 150, 10, 63),
-            );
+            return followButton(mangaId, utils);
           }
 
           final follow = snapshot.data;
           if (follow == null || follow.is_following == false) {
-            return IconButton(
-              onPressed: () => {
-                followManga(mangaId),
-                utils.refetch()
-                },
-              icon: const Icon(Icons.favorite_border_outlined),
-              color: const Color.fromARGB(255, 150, 10, 63),
-            );
+            return followButton(mangaId, utils);
           }
-          return IconButton(
-            onPressed: () => {
-              followManga(mangaId),
-              utils.refetch()
-            },
-            icon: const Icon(Icons.favorite),
-            color: const Color.fromARGB(255, 150, 10, 63),
+          return ElevatedButton(
+            onPressed: () => {followManga(mangaId, utils)},
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.favorite, color: Colors.white),
+              ],
+            ),
           );
         });
   }
 
-  void followManga(String mangaId) async {
+
+  ElevatedButton followButton(String mangaId, RemoterQueryUtils<RemoterData<Follow>> utils) {
+    return ElevatedButton(
+      onPressed: () => {followManga(mangaId, utils)},
+      // style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.favorite, color: Colors.red),
+        ],
+      ),
+    );
+  }
+
+
+  void followManga(String mangaId, RemoterQueryUtils<RemoterData<Follow>> utils) async {
     final followApi = GetIt.I.get<FollowApi>();
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
     try {
       await followApi.followManga(mangaId: mangaId, token: token);
+      utils.refetch();
     } catch (e) {
       Fluttertoast.showToast(
           msg: "Login to follow this manga",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Color.fromARGB(166, 0, 0, 0),
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  Widget rating(String mangaId) {
+    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+    return RemoterQuery<Rating>(
+        remoterKey: jsonEncode(['rating', 'item', mangaId]),
+        execute: () async {
+          final ratingApi = GetIt.I.get<RatingApi>();
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token') ?? '';
+          final response =
+              await ratingApi.getRatingItem(mangaId: mangaId, token: token);
+          return response;
+        },
+        disabled: false,
+        builder: (context, snapshot, utils) {
+          if (snapshot.status == RemoterStatus.fetching) {
+            return ElevatedButton(
+              onPressed: () => {},
+              child: SizedBox(
+                  height: 20, width: 20, child: CircularProgressIndicator()),
+            );
+          }
+          if (snapshot.status == RemoterStatus.error) {
+            return ratingButton(context, mangaId, utils);
+          }
+
+          final rating = snapshot.data;
+          if (rating == null) {
+            return ratingButton(context, mangaId, utils);
+          }
+          return ElevatedButton(
+            onPressed: () => {ratingList(context, mangaId, utils)},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 243, 219, 0)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.star_rounded, color: Colors.white),
+                const SizedBox(width: 5),
+                Text(
+                  rating.rating.toString().replaceAll(regex, ''),
+                  style: const TextStyle(
+                    color: Colors.white
+                  )
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+
+  ElevatedButton ratingButton(BuildContext context, String mangaId,
+      RemoterQueryUtils<RemoterData<Rating>> utils) {
+    return ElevatedButton(
+      onPressed: () => {ratingList(context, mangaId, utils)},
+      child: Icon(Icons.star_rounded, color: Color.fromARGB(255, 243, 219, 0)),
+    );
+  }
+
+
+  void ratingList(BuildContext context, String mangaId, RemoterQueryUtils<RemoterData<Rating>> utils) {
+    List<String> rating = [
+      "(1) Appalling",
+      "(2) Horrible",
+      "(3) Very Bad",
+      "(4) Bad",
+      "(5) Average",
+      "(6) Fine",
+      "(7) Good",
+      "(8) Very Good",
+      "(9) Great",
+      "(10) Masterpiece"
+    ];
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+            content: SizedBox(
+                width: MediaQuery.of(context).size.height * 0.75,
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                      reverse: true,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: rating.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () => {
+                            rateManga(mangaId, index + 1, utils),
+                            Navigator.pop(context)
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: Text(rating[index],
+                                style: const TextStyle(fontSize: 19)),
+                          ),
+                        );
+                      }),
+                ))),
+        barrierDismissible: true);
+  }
+
+  void rateManga(String mangaId, int rating, RemoterQueryUtils<RemoterData<Rating>> utils) async {
+    final ratingApi = GetIt.I.get<RatingApi>();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+    try {
+      await ratingApi.ratingManga(
+          mangaId: mangaId, token: token, rating: rating);
+      utils.refetch();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Login to rate this manga",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 2,

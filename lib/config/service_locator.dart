@@ -5,6 +5,7 @@ import '../api/requests/chapter_api.dart';
 import '../api/requests/chapter_image_api.dart';
 import '../api/requests/follow_api.dart';
 import '../api/requests/manga_api.dart';
+import '../api/requests/rating_api.dart';
 import '../api/requests/user_api.dart';
 import '../lib_wrappers/index.dart';
 import 'env.dart';
@@ -60,6 +61,11 @@ void setupApis() {
   );
   GetIt.I.registerSingleton<FollowApi>(
     FollowApi(
+      access: GetIt.I.get<NetworkAccess>(instanceName: 'normal'),
+    ),
+  );
+  GetIt.I.registerSingleton<RatingApi>(
+    RatingApi(
       access: GetIt.I.get<NetworkAccess>(instanceName: 'normal'),
     ),
   );

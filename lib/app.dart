@@ -27,9 +27,6 @@ class _RootApplicationState extends State<RootApplication> {
         routerConfig: rootRouter,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Color.fromARGB(255, 0, 0, 0),
-          ),
           useMaterial3: true,
         ),
       ),
