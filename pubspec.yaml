@@ -113,3 +113,4 @@ flutter:
   assets:
     - .env
     - assets/background.jpg
+    - assets/default_user.jpg

@@ -476,7 +476,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.favorite, color: Colors.white),
+                Icon(Icons.favorite_rounded, color: Colors.white),
               ],
             ),
           );
@@ -491,7 +491,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.favorite, color: Colors.red),
+          Icon(Icons.favorite_rounded, color: Colors.red),
         ],
       ),
     );
