@@ -62,12 +62,13 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                       },
                     )
                   },
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ))),
-              child: const Text("READ NOW")),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.surfaceTint,
+              ),
+              child: const Text(
+                "READ NOW",
+                style: TextStyle(color: Colors.white),
+              )),
         ),
         body: RemoterQuery<Manga>(
             remoterKey: jsonEncode(['detail_manga', 'item', widget.mangaId]),
@@ -187,7 +188,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                     child: CircularProgressIndicator());
                               },
                               errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                                  const Icon(Icons.error),
                             ),
                             Container(
                               padding: const EdgeInsets.only(left: 15.0),
@@ -320,7 +321,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                       ),
                     ),
                     Container(
-                        margin: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
                         padding: const EdgeInsets.all(20),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -433,6 +434,58 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                             ),
                           ],
                         )),
+                    Container(
+                        margin: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text("Comments",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1),
+                            GestureDetector(
+                              onTap: () {
+                                print("comment");
+                              },
+                              child: const Row(
+                                children: [
+                                  Text('Read comments',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1),
+                                  SizedBox(width: 5),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 13.0,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ))
                   ],
                 ),
               );
@@ -455,10 +508,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
           if (snapshot.status == RemoterStatus.fetching) {
             return ElevatedButton(
               onPressed: () => {},
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator()),
+              child: const SizedBox(
+                  height: 20, width: 20, child: CircularProgressIndicator()),
             );
           }
           if (snapshot.status == RemoterStatus.error) {
@@ -471,8 +522,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
           }
           return ElevatedButton(
             onPressed: () => {followManga(mangaId, utils)},
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -483,8 +533,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
         });
   }
 
-
-  ElevatedButton followButton(String mangaId, RemoterQueryUtils<RemoterData<Follow>> utils) {
+  ElevatedButton followButton(
+      String mangaId, RemoterQueryUtils<RemoterData<Follow>> utils) {
     return ElevatedButton(
       onPressed: () => {followManga(mangaId, utils)},
       // style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -497,8 +547,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
     );
   }
 
-
-  void followManga(String mangaId, RemoterQueryUtils<RemoterData<Follow>> utils) async {
+  void followManga(
+      String mangaId, RemoterQueryUtils<RemoterData<Follow>> utils) async {
     final followApi = GetIt.I.get<FollowApi>();
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
@@ -511,7 +561,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 2,
-          backgroundColor: Color.fromARGB(166, 0, 0, 0),
+          backgroundColor: const Color.fromARGB(166, 0, 0, 0),
           textColor: Colors.white,
           fontSize: 16.0);
     }
@@ -549,36 +599,31 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
           return ElevatedButton(
             onPressed: () => {ratingList(context, mangaId, utils)},
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 243, 219, 0)
-            ),
+                backgroundColor: const Color.fromARGB(255, 243, 219, 0)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(Icons.star_rounded, color: Colors.white),
                 const SizedBox(width: 5),
-                Text(
-                  rating.rating.toString().replaceAll(regex, ''),
-                  style: const TextStyle(
-                    color: Colors.white
-                  )
-                )
+                Text(rating.rating.toString().replaceAll(regex, ''),
+                    style: const TextStyle(color: Colors.white))
               ],
             ),
           );
         });
   }
 
-
   ElevatedButton ratingButton(BuildContext context, String mangaId,
       RemoterQueryUtils<RemoterData<Rating>> utils) {
     return ElevatedButton(
       onPressed: () => {ratingList(context, mangaId, utils)},
-      child: Icon(Icons.star_rounded, color: Color.fromARGB(255, 243, 219, 0)),
+      child: const Icon(Icons.star_rounded,
+          color: Color.fromARGB(255, 243, 219, 0)),
     );
   }
 
-
-  void ratingList(BuildContext context, String mangaId, RemoterQueryUtils<RemoterData<Rating>> utils) {
+  void ratingList(BuildContext context, String mangaId,
+      RemoterQueryUtils<RemoterData<Rating>> utils) {
     List<String> rating = [
       "(1) Appalling",
       "(2) Horrible",
@@ -619,7 +664,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
         barrierDismissible: true);
   }
 
-  void rateManga(String mangaId, int rating, RemoterQueryUtils<RemoterData<Rating>> utils) async {
+  void rateManga(String mangaId, int rating,
+      RemoterQueryUtils<RemoterData<Rating>> utils) async {
     final ratingApi = GetIt.I.get<RatingApi>();
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
@@ -633,7 +679,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 2,
-          backgroundColor: Color.fromARGB(166, 0, 0, 0),
+          backgroundColor: const Color.fromARGB(166, 0, 0, 0),
           textColor: Colors.white,
           fontSize: 16.0);
     }

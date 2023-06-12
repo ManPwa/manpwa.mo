@@ -4,6 +4,7 @@ import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:flutter/foundation.dart';
+import 'package:manpwa/api/entities/comment.dart';
 import 'package:manpwa/api/entities/manga_response.dart';
 import 'package:manpwa/api/entities/rating.dart';
 import 'package:manpwa/api/entities/user.dart';
@@ -25,7 +26,8 @@ const List<Type> _registeredTypes = [
   ChapterImage,
   User,
   Follow,
-  Rating
+  Rating,
+  Comment
 ];
 
 /// Addition builder factories, if needed.

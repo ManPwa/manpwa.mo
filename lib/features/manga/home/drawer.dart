@@ -14,6 +14,7 @@ import '../manga_list/manga_list_page.dart';
 
 Widget homeDrawer(BuildContext context) {
   return RemoterQuery<User>(
+      options: RemoterOptions(maxRetries: 0, retryOnMount: false),
       remoterKey: jsonEncode(['user', 'item']),
       execute: () async {
         final userApi = GetIt.I.get<UserApi>();
@@ -32,7 +33,7 @@ Widget homeDrawer(BuildContext context) {
         if (snapshot.status == RemoterStatus.error) {
           return unauthorizedDrawer(context);
         }
-    
+
         final user = snapshot.data;
         if (user == null) {
           return const Center(
@@ -69,31 +70,31 @@ ListView unauthorizedDrawer(BuildContext context) {
   );
 }
 
-ListView authorizedDrawer(BuildContext context, User user, RemoterQueryUtils<RemoterData<User>> utils) {
+ListView authorizedDrawer(BuildContext context, User user,
+    RemoterQueryUtils<RemoterData<User>> utils) {
   return ListView(
     padding: EdgeInsets.zero,
     children: [
       UserAccountsDrawerHeader(
         accountName: Text(user.username ?? ''),
         accountEmail: Text(user.email ?? ''),
-        currentAccountPictureSize: const Size.square(70.0), 
+        currentAccountPictureSize: const Size.square(70.0),
         currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.network(
-                  user.avatar_url ?? "https://res.cloudinary.com/dt9bzvzw9/image/upload/v1686499661/default_user_anvydm.png",
-                  fit: BoxFit.cover,
-                  width: 90,
-                  height: 90,
-                ),
-              ),
+          child: ClipOval(
+            child: Image.network(
+              user.avatar_url ??
+                  "https://res.cloudinary.com/dt9bzvzw9/image/upload/v1686499661/default_user_anvydm.png",
+              fit: BoxFit.cover,
+              width: 90,
+              height: 90,
             ),
+          ),
+        ),
       ),
       ListTile(
         leading: const Icon(Icons.person_rounded),
         title: const Text('Profile'),
-        onTap: () async {
-          
-        },
+        onTap: () async {},
       ),
       ListTile(
         leading: const Icon(Icons.favorite_rounded),
