@@ -47,26 +47,12 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.username;
+    value = object.user;
     if (value != null) {
       result
-        ..add('username')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.avatar_url;
-    if (value != null) {
-      result
-        ..add('avatar_url')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.is_admin;
-    if (value != null) {
-      result
-        ..add('is_admin')
+        ..add('user')
         ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
+            serializers.serialize(value, specifiedType: const FullType(User)));
     }
     value = object.deleted;
     if (value != null) {
@@ -126,17 +112,9 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
           result.content = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'username':
-          result.username = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'avatar_url':
-          result.avatar_url = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'is_admin':
-          result.is_admin = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
+        case 'user':
+          result.user.replace(serializers.deserialize(value,
+              specifiedType: const FullType(User))! as User);
           break;
         case '_deleted':
           result.deleted = serializers.deserialize(value,
@@ -171,11 +149,7 @@ class _$Comment extends Comment {
   @override
   final String? content;
   @override
-  final String? username;
-  @override
-  final String? avatar_url;
-  @override
-  final bool? is_admin;
+  final User? user;
   @override
   final DateTime? deleted;
   @override
@@ -193,9 +167,7 @@ class _$Comment extends Comment {
       this.mangaId,
       this.userId,
       this.content,
-      this.username,
-      this.avatar_url,
-      this.is_admin,
+      this.user,
       this.deleted,
       this.updated,
       this.updater,
@@ -217,9 +189,7 @@ class _$Comment extends Comment {
         mangaId == other.mangaId &&
         userId == other.userId &&
         content == other.content &&
-        username == other.username &&
-        avatar_url == other.avatar_url &&
-        is_admin == other.is_admin &&
+        user == other.user &&
         deleted == other.deleted &&
         updated == other.updated &&
         updater == other.updater &&
@@ -233,9 +203,7 @@ class _$Comment extends Comment {
     _$hash = $jc(_$hash, mangaId.hashCode);
     _$hash = $jc(_$hash, userId.hashCode);
     _$hash = $jc(_$hash, content.hashCode);
-    _$hash = $jc(_$hash, username.hashCode);
-    _$hash = $jc(_$hash, avatar_url.hashCode);
-    _$hash = $jc(_$hash, is_admin.hashCode);
+    _$hash = $jc(_$hash, user.hashCode);
     _$hash = $jc(_$hash, deleted.hashCode);
     _$hash = $jc(_$hash, updated.hashCode);
     _$hash = $jc(_$hash, updater.hashCode);
@@ -251,9 +219,7 @@ class _$Comment extends Comment {
           ..add('mangaId', mangaId)
           ..add('userId', userId)
           ..add('content', content)
-          ..add('username', username)
-          ..add('avatar_url', avatar_url)
-          ..add('is_admin', is_admin)
+          ..add('user', user)
           ..add('deleted', deleted)
           ..add('updated', updated)
           ..add('updater', updater)
@@ -281,17 +247,9 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   String? get content => _$this._content;
   set content(String? content) => _$this._content = content;
 
-  String? _username;
-  String? get username => _$this._username;
-  set username(String? username) => _$this._username = username;
-
-  String? _avatar_url;
-  String? get avatar_url => _$this._avatar_url;
-  set avatar_url(String? avatar_url) => _$this._avatar_url = avatar_url;
-
-  bool? _is_admin;
-  bool? get is_admin => _$this._is_admin;
-  set is_admin(bool? is_admin) => _$this._is_admin = is_admin;
+  UserBuilder? _user;
+  UserBuilder get user => _$this._user ??= new UserBuilder();
+  set user(UserBuilder? user) => _$this._user = user;
 
   DateTime? _deleted;
   DateTime? get deleted => _$this._deleted;
@@ -318,9 +276,7 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
       _mangaId = $v.mangaId;
       _userId = $v.userId;
       _content = $v.content;
-      _username = $v.username;
-      _avatar_url = $v.avatar_url;
-      _is_admin = $v.is_admin;
+      _user = $v.user?.toBuilder();
       _deleted = $v.deleted;
       _updated = $v.updated;
       _updater = $v.updater;
@@ -345,19 +301,30 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   Comment build() => _build();
 
   _$Comment _build() {
-    final _$result = _$v ??
-        new _$Comment._(
-            id: id,
-            mangaId: mangaId,
-            userId: userId,
-            content: content,
-            username: username,
-            avatar_url: avatar_url,
-            is_admin: is_admin,
-            deleted: deleted,
-            updated: updated,
-            updater: updater,
-            created: created);
+    _$Comment _$result;
+    try {
+      _$result = _$v ??
+          new _$Comment._(
+              id: id,
+              mangaId: mangaId,
+              userId: userId,
+              content: content,
+              user: _user?.build(),
+              deleted: deleted,
+              updated: updated,
+              updater: updater,
+              created: created);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'user';
+        _user?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'Comment', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

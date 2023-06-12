@@ -4,6 +4,7 @@ import 'package:manpwa/features/manga/manga_detail/manga_detail_page.dart';
 
 import '../auth/pages/login_page.dart';
 import '../auth/pages/register_page.dart';
+import 'comment_list/comment_list_page.dart';
 import 'manga_list/manga_list_page.dart';
 import 'read_chapter/chapter_image_page.dart';
 import 'home/index.dart';
@@ -22,6 +23,14 @@ GoRoute setupRoutes() {
           return MangaDetailPage(mangaId: mangaId);
         },
         routes: [
+          GoRoute(
+            name: CommentListPage.routeName,
+            path: CommentListPage.routePath,
+            builder: (context, state) {
+              final mangaId = state.pathParameters[CommentListPage.kMangaIdParam]!;
+              return CommentListPage(mangaId: mangaId);
+            }
+          ),
           GoRoute(
             name: ChapterPage.routeName,
             path: ChapterPage.routePath,

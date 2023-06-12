@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import '../api/index.dart';
 import '../api/requests/chapter_api.dart';
 import '../api/requests/chapter_image_api.dart';
+import '../api/requests/comment_api.dart';
 import '../api/requests/follow_api.dart';
 import '../api/requests/manga_api.dart';
 import '../api/requests/rating_api.dart';
@@ -66,6 +67,11 @@ void setupApis() {
   );
   GetIt.I.registerSingleton<RatingApi>(
     RatingApi(
+      access: GetIt.I.get<NetworkAccess>(instanceName: 'normal'),
+    ),
+  );
+  GetIt.I.registerSingleton<CommentApi>(
+    CommentApi(
       access: GetIt.I.get<NetworkAccess>(instanceName: 'normal'),
     ),
   );

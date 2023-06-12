@@ -1,5 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:manpwa/api/entities/user.dart';
 
 import 'serializers.dart';
 
@@ -17,11 +18,7 @@ abstract class Comment implements Built<Comment, CommentBuilder> {
 
   String? get content;
 
-  String? get username;
-
-  String? get avatar_url;
-
-  bool? get is_admin;
+  User? get user;
 
   @BuiltValueField(wireName: '_deleted')
   DateTime? get deleted;

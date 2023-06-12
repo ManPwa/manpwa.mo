@@ -16,6 +16,7 @@ import '../../../api/requests/follow_api.dart';
 import '../../../api/requests/manga_api.dart';
 import '../../../api/requests/rating_api.dart';
 import '../chapter_list/chapter_page.dart';
+import '../comment_list/comment_list_page.dart';
 
 class MangaDetailPage extends StatefulWidget {
   static const routeName = 'manga/detail';
@@ -321,7 +322,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                       ),
                     ),
                     Container(
-                        margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                        margin:
+                            const EdgeInsets.only(top: 20, left: 20, right: 20),
                         padding: const EdgeInsets.all(20),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -465,7 +467,12 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                 maxLines: 1),
                             GestureDetector(
                               onTap: () {
-                                print("comment");
+                                context.pushNamed(
+                                  CommentListPage.routeName,
+                                  pathParameters: {
+                                    CommentListPage.kMangaIdParam: widget.mangaId,
+                                  },
+                                );
                               },
                               child: const Row(
                                 children: [

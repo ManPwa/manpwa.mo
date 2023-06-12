@@ -18,7 +18,7 @@ class CommentApi {
   }
 
   Future commentManga({required String mangaId, required String token,
-      required int content}) async {
+      required String content}) async {
     final response = await access.post('api/manga/$mangaId/comment',
         headers: {"Authorization": "Bearer $token"}, data: {"content": content});
     return response;
