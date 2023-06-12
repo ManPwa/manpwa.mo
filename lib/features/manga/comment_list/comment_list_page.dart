@@ -206,7 +206,7 @@ class _CommentListPageState extends State<CommentListPage> {
     TextEditingController commentController = TextEditingController();
     return TextField(
       controller: commentController,
-      textCapitalization: TextCapitalization.words,
+      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
