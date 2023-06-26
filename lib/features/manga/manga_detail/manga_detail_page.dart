@@ -218,10 +218,9 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                       ),
                                       const SizedBox(width: 5),
                                       Text(
-                                        ((manga.average_rating ?? "N/A")
-                                                .toString()
-                                                .replaceAll(regex, ''))
-                                            .toString(),
+                                        (manga.average_rating ?? 0)
+                                                        .toStringAsFixed(2)
+                                            .replaceAll(regex, ''),
                                         style: const TextStyle(
                                             color: Colors.white, fontSize: 14),
                                       ),
