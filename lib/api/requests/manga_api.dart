@@ -10,8 +10,8 @@ class MangaApi {
   MangaApi({required this.access});
 
   Future<MangaResponse> getMangaList(
-      Map<String, dynamic> params) async {
-    final response = await access.fetch('api/manga', queryParameters: params);
+      Map<String, dynamic> params, { String token = "" }) async {
+    final response = await access.fetch('api/manga', queryParameters: params, headers: {"Authorization": "Bearer $token"});
     return MangaResponse.fromJson(response.data);
   }
 

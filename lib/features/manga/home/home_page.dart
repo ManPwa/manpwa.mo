@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:manpwa/features/manga/home/search.dart';
 import 'package:manpwa/features/manga/manga_detail/manga_detail_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api/entities/manga_response.dart';
 import '../../../api/requests/manga_api.dart';
 import 'drawer.dart';
@@ -28,6 +29,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   int currentIndex = 0;
+  String token = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +57,10 @@ class _HomePageState extends State<HomePage> {
                 remoterKey: jsonEncode(['top_rated', 'list']),
                 execute: () async {
                   final mangaApi2 = GetIt.I.get<MangaApi>();
+                  final prefs = await SharedPreferences.getInstance();
+                  token = prefs.getString('token') ?? '';
                   final response = await mangaApi2.getMangaList(
-                      {"limit": 9, "sort": '{"average_rating": -1}'});
+                      {"limit": 9, "sort": '{"average_rating": -1}'}, token: token);
                   return response;
                 },
                 disabled: false,
@@ -96,9 +101,15 @@ class _HomePageState extends State<HomePage> {
                       child: Text('No todo yet!'),
                     );
                   }
+                  String text = '';
+                  if (token == '') {
+                    text = 'Top rated';
+                  } else {
+                    text = 'Recommends for you';
+                  }
                   return Column(
                     children: [
-                      homeHeader(context, 'Top rated'),
+                      homeHeader(context, text),
                       GestureDetector(
                         onTap: () {
                           context.pushNamed(

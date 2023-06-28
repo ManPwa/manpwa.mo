@@ -28,12 +28,16 @@ class UserApi {
   Future register({
     required String username,
     required String email,
-    required String password
+    required String password,
+    required String date_of_birth,
+    required bool gender
   }) async {
     var data = {
       "username": username,
       "email": email,
-      "password": password
+      "password": password,
+      "date_of_birth": date_of_birth,
+      "gender": gender
     };
     final response = await access.post('api/user/register', data: data);
     return response;

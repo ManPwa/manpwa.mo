@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:date_field/date_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../api/requests/user_api.dart';
@@ -55,6 +57,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
+
 class SignupPageContent extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _SignupPageContent();
@@ -65,12 +68,15 @@ class _SignupPageContent extends State<SignupPageContent> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController1 = TextEditingController();
   TextEditingController passwordController2 = TextEditingController();
+  late String dateOfBirth;
+  bool gender = true;
   bool _isVisible = false;
   bool _isObscure1 = true;
   bool _isObscure2 = true;
   String returnVisibilityString = "";
 
-  bool returnVisibility(String password1, String password2, String username, String email) {
+  bool returnVisibility(
+      String password1, String password2, String username, String email) {
     if (password1 != password2) {
       returnVisibilityString = "Passwords do not match!";
     } else if (username == "") {
@@ -93,14 +99,14 @@ class _SignupPageContent extends State<SignupPageContent> {
         children: <Widget>[
           // Sized Box
           SizedBox(
-            height: 37.5,
+            height: 100,
             width: 400,
           ),
 
           // Signup Text
           Center(
             child: Container(
-              height: 245,
+              height: 100,
               width: 400,
               alignment: Alignment.center,
               child: Text(
@@ -135,7 +141,7 @@ class _SignupPageContent extends State<SignupPageContent> {
 
           // Signup Info
           Container(
-            height: 320,
+            height: 490,
             width: 530,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -170,6 +176,50 @@ class _SignupPageContent extends State<SignupPageContent> {
                       hintText: "Email",
                       contentPadding: EdgeInsets.all(20)),
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                ),
+                Divider(
+                  thickness: 3,
+                ),
+                SizedBox(
+                  height: 70,
+                  child: Row(children: [
+                    Radio(
+                      value: true,
+                      groupValue: gender,
+                      onChanged: (value) {
+                        setState(() {
+                          gender = value!;
+                        });
+                      },
+                    ),
+                    Text("Male"),
+                    Radio(
+                      value: false,
+                      groupValue: gender,
+                      onChanged: (value) {
+                        setState(() {
+                          gender = value!;
+                        });
+                      },
+                    ),
+                    Text("Female"),
+                  ]),
+                ),
+                Divider(
+                  thickness: 3,
+                ),
+                DateTimeFormField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Date of birth",
+                      contentPadding: EdgeInsets.all(20)),
+                  mode: DateTimeFieldPickerMode.date,
+                  autovalidateMode: AutovalidateMode.always,
+                  onDateSelected: (DateTime value) {
+                    final DateFormat formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                    dateOfBirth = formatter.format(value);
+                    print(dateOfBirth);
+                  },
                 ),
                 Divider(
                   thickness: 3,
@@ -251,7 +301,9 @@ class _SignupPageContent extends State<SignupPageContent> {
                       await userApi.register(
                           username: usernameController.text,
                           email: emailController.text,
-                          password: passwordController1.text);
+                          password: passwordController1.text,
+                          date_of_birth: dateOfBirth,
+                          gender: gender);
                       // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                       Fluttertoast.showToast(
@@ -270,8 +322,10 @@ class _SignupPageContent extends State<SignupPageContent> {
                     }
                   } else {
                     setState(() {
-                      _isVisible = returnVisibility(passwordController1.text,
-                          passwordController2.text, usernameController.text,
+                      _isVisible = returnVisibility(
+                          passwordController1.text,
+                          passwordController2.text,
+                          usernameController.text,
                           emailController.text);
                     });
                   }
