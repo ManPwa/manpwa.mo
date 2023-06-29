@@ -50,6 +50,13 @@ class _MangaListPageState extends State<MangaListPage> {
                       final response = await mangaApi
                           .getFollowingMangaList(token: token);
                       return response;
+                    case "Recommends for you":
+                      final prefs = await SharedPreferences.getInstance();
+                      final token = prefs.getString('token') ?? '';
+                      final response = await mangaApi.getMangaList(
+                          {"limit": 9, "sort": '{"average_rating": -1}'},
+                          token: token);
+                      return response;
                   }
                   final response = await mangaApi
                       .getMangaList({"limit": 24, "sort": '{"$sort": -1}'});
