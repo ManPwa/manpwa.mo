@@ -89,76 +89,82 @@ class _ChapterPageState extends State<ChapterPage> {
                   scrollDirection: Axis.vertical,
                   itemCount: new_chapter_list.length,
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () => {
-                        context.pushNamed(
-                          ChapterImagePage.routeName,
-                          pathParameters: {
-                            ChapterImagePage.kChapterIdParam: new_chapter_list[index].id ?? "",
-                            ChapterPage.kMangaIdParam: widget.mangaId,
-                          },
-                        )
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(top: 15, left: 15, right: 15),
-                        child: Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.65,
-                                    child: Text((() {
-                                      String string1 = "";
-                                      String string2 = "";
-                                      String middleString = "";
-                                      if (new_chapter_list[index].chapter !=
-                                          null) {
-                                        string1 =
-                                            "Chapter ${new_chapter_list[index].chapter.toString().replaceAll(regex, '')}";
-                                      }
-                                      if (new_chapter_list[index].title !=
-                                          null) {
-                                        string2 =
-                                            new_chapter_list[index].title ?? '';
-                                      }
-                                      if (new_chapter_list[index].chapter !=
-                                              null &&
-                                          (new_chapter_list[index].title !=
-                                                  null &&
-                                              new_chapter_list[index].title !=
-                                                  "")) {
-                                        middleString = ". ";
-                                      }
-                                      return string1 + middleString + string2;
-                                    })(),
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1),
-                                  ),
-                                  Text(
-                                    (() {
-                                      final DateFormat formatter =
-                                          DateFormat('dd/MM/yyyy');
-                                      final String formatted = formatter.format(
-                                          new_chapter_list[index].created ??
-                                              DateTime.now());
-                                      return formatted;
-                                    })(),
-                                    style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 11,
-                                        fontStyle: FontStyle.italic),
-                                  ),
-                                ]),
-                            const Divider(color: Colors.grey)
-                          ],
-                        ),
+                    return Container(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () => {
+                              context.pushNamed(
+                                ChapterImagePage.routeName,
+                                pathParameters: {
+                                  ChapterImagePage.kChapterIdParam: new_chapter_list[index].id ?? "",
+                                  ChapterPage.kMangaIdParam: widget.mangaId,
+                                  // ChapterImagePage.kChapterParam: (new_chapter_list[index].chapter ?? new_chapter_list[index].title)
+                                  //             .toString()
+                                  //             .replaceAll(regex, '')
+                                },
+                              )
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 5),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.65,
+                                      child: Text((() {
+                                        String string1 = "";
+                                        String string2 = "";
+                                        String middleString = "";
+                                        if (new_chapter_list[index].chapter !=
+                                            null) {
+                                          string1 =
+                                              "Chapter ${new_chapter_list[index].chapter.toString().replaceAll(regex, '')}";
+                                        }
+                                        if (new_chapter_list[index].title !=
+                                            null) {
+                                          string2 =
+                                              new_chapter_list[index].title ?? '';
+                                        }
+                                        if (new_chapter_list[index].chapter !=
+                                                null &&
+                                            (new_chapter_list[index].title !=
+                                                    null &&
+                                                new_chapter_list[index].title !=
+                                                    "")) {
+                                          middleString = ". ";
+                                        }
+                                        return string1 + middleString + string2;
+                                      })(),
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1),
+                                    ),
+                                    Text(
+                                      (() {
+                                        final DateFormat formatter =
+                                            DateFormat('dd/MM/yyyy');
+                                        final String formatted = formatter.format(
+                                            new_chapter_list[index].created ??
+                                                DateTime.now());
+                                        return formatted;
+                                      })(),
+                                      style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 11,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ]),
+                            ),
+                            ),
+                          const Divider(color: Colors.grey)
+                        ],
                       ),
                     );
                   });

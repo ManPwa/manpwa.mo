@@ -154,11 +154,13 @@ class _SignupPageContent extends State<SignupPageContent> {
                       _isVisible = false;
                     });
                   },
+                  style: TextStyle(fontSize: 14),
                   controller: usernameController, // Controller for Username
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Username",
-                      contentPadding: EdgeInsets.all(20)),
+                      contentPadding: EdgeInsets.all(20),
+                      hintStyle: TextStyle(fontSize: 14)),
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 ),
                 Divider(
@@ -170,18 +172,20 @@ class _SignupPageContent extends State<SignupPageContent> {
                       _isVisible = false;
                     });
                   },
+                  style: TextStyle(fontSize: 14),
                   controller: emailController, // Controller for Username
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Email",
-                      contentPadding: EdgeInsets.all(20)),
+                      contentPadding: EdgeInsets.all(20),
+                      hintStyle: TextStyle(fontSize: 14)),
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 ),
                 Divider(
                   thickness: 3,
                 ),
                 SizedBox(
-                  height: 70,
+                  height: 68,
                   child: Row(children: [
                     Radio(
                       value: true,
@@ -192,7 +196,10 @@ class _SignupPageContent extends State<SignupPageContent> {
                         });
                       },
                     ),
-                    Text("Male"),
+                    Text(
+                      "Male",
+                      style: TextStyle(fontSize: 14),
+                    ),
                     Radio(
                       value: false,
                       groupValue: gender,
@@ -202,7 +209,10 @@ class _SignupPageContent extends State<SignupPageContent> {
                         });
                       },
                     ),
-                    Text("Female"),
+                    Text(
+                      "Female",
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ]),
                 ),
                 Divider(
@@ -212,13 +222,14 @@ class _SignupPageContent extends State<SignupPageContent> {
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Date of birth",
-                      contentPadding: EdgeInsets.all(20)),
+                      hintStyle: TextStyle(fontSize: 14),
+                      contentPadding: EdgeInsets.all(20)
+                  ),
                   mode: DateTimeFieldPickerMode.date,
                   autovalidateMode: AutovalidateMode.always,
                   onDateSelected: (DateTime value) {
                     final DateFormat formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     dateOfBirth = formatter.format(value);
-                    print(dateOfBirth);
                   },
                 ),
                 Divider(
@@ -230,12 +241,13 @@ class _SignupPageContent extends State<SignupPageContent> {
                       _isVisible = false;
                     });
                   },
-
+                  style: TextStyle(fontSize: 14),
                   controller: passwordController1, // Controller for Password
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Password",
                       contentPadding: EdgeInsets.all(20),
+                      hintStyle: TextStyle(fontSize: 14),
                       // Adding the visibility icon to toggle visibility of the password field
                       suffixIcon: IconButton(
                         icon: Icon(_isObscure1
@@ -258,12 +270,13 @@ class _SignupPageContent extends State<SignupPageContent> {
                       _isVisible = false;
                     });
                   },
-
+                  style: TextStyle(fontSize: 14),
                   controller: passwordController2, // Controller for Password
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Re-enter Password",
                       contentPadding: EdgeInsets.all(20),
+                      hintStyle: TextStyle(fontSize: 14),
                       // Adding the visibility icon to toggle visibility of the password field
                       suffixIcon: IconButton(
                         icon: Icon(_isObscure2

@@ -37,20 +37,6 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        // appBar: AppBar(
-        //   forceMaterialTransparency: true,
-        //   scrolledUnderElevation: 250,
-        //   automaticallyImplyLeading: false,
-        //   leading: IconButton(
-        //     color: Colors.white,
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //     icon: const Icon(Icons.arrow_back_ios),
-        //   ),
-        //   backgroundColor: Color.fromARGB(0, 255, 255, 255),
-        //   elevation: 0,
-        // ),
         bottomNavigationBar: BottomAppBar(
           surfaceTintColor: Colors.white,
           shadowColor: Colors.black,
@@ -157,6 +143,17 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                           )),
                       Container(
                         padding: const EdgeInsets.only(
+                            left: 5, top: 35),
+                        child: IconButton(
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(Icons.arrow_back_rounded),
+                                ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
                             left: 20.0, top: 100, right: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +216,7 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                       const SizedBox(width: 5),
                                       Text(
                                         (manga.average_rating ?? 0)
-                                                        .toStringAsFixed(2)
+                                            .toStringAsFixed(2)
                                             .replaceAll(regex, ''),
                                         style: const TextStyle(
                                             color: Colors.white, fontSize: 14),
@@ -469,7 +466,8 @@ class _MangaDetailPageState extends State<MangaDetailPage> {
                                 context.pushNamed(
                                   CommentListPage.routeName,
                                   pathParameters: {
-                                    CommentListPage.kMangaIdParam: widget.mangaId,
+                                    CommentListPage.kMangaIdParam:
+                                        widget.mangaId,
                                   },
                                 );
                               },

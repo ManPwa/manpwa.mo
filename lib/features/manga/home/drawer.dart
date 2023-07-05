@@ -55,7 +55,9 @@ ListView unauthorizedDrawer(BuildContext context) {
       ListTile(
         leading: const Icon(Icons.account_box_rounded),
         title: const Text('About'),
-        onTap: () async {},
+        onTap: () async {
+          showAbout(context);
+        },
       ),
       ListTile(
         leading: const Icon(Icons.login_rounded),
@@ -111,7 +113,9 @@ ListView authorizedDrawer(BuildContext context, User user,
       ListTile(
         leading: const Icon(Icons.account_box_rounded),
         title: const Text('About'),
-        onTap: () async {},
+        onTap: () async {
+          showAbout(context);
+        },
       ),
       ListTile(
         leading: const Icon(Icons.logout_rounded),
@@ -124,4 +128,43 @@ ListView authorizedDrawer(BuildContext context, User user,
       ),
     ],
   );
+}
+
+void showAbout(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+            title: const Text("About"),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Creator: Do Thanh Long."),
+                  SizedBox(height: 10),
+                  Text("Thanks to Nguyen Quang An, Dang Cong Khai Thu, Huynh Vu Minh Nguyet and Duong Xuan Ngoc Phong for supporting me develop this app (～￣▽￣)～."),
+                  SizedBox(height: 10),
+                  Text(
+                      "All manga, chapter, image of this app belongs to MangaDex."),
+                  SizedBox(height: 15),
+                  Center(
+                    child: Column(
+                      children: [
+                        Image(
+                          image: AssetImage('assets/mangadex.png'),
+                          fit: BoxFit.cover,
+                          height: 75,
+                          width: 75,
+                        ),
+                        SizedBox(height: 5),
+                        Text("https://mangadex.org"),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+      barrierDismissible: true);
 }

@@ -241,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     children: [
                       TextSpan(
-                          text: " Register here",
+                          text: " REGISTER HERE",
                           style: TextStyle(
                               color: const Color.fromARGB(255, 98, 185, 255), fontWeight: FontWeight.bold),
                           recognizer: new TapGestureRecognizer()

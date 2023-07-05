@@ -115,3 +115,4 @@ flutter:
     - .env
     - assets/background.jpg
     - assets/default_user.jpg
+    - assets/mangadex.png
