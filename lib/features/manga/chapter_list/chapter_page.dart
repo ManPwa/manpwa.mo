@@ -86,6 +86,7 @@ class _ChapterPageState extends State<ChapterPage> {
                 }
               });
               return ListView.builder(
+                  padding: const EdgeInsets.only(top: 10),
                   scrollDirection: Axis.vertical,
                   itemCount: new_chapter_list.length,
                   itemBuilder: (context, index) {
