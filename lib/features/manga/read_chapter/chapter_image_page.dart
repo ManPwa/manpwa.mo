@@ -30,15 +30,14 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
         statusBarColor: Colors.white,
       ),
       child: Scaffold(
-        
           body: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-                floating: true,
-                snap: true,
-                backgroundColor: Colors.white,
-               ),
+              floating: true,
+              snap: true,
+              backgroundColor: Colors.white,
+            ),
           ];
         },
         body: RemoterQuery<List<ChapterImage>>(
@@ -79,7 +78,7 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
                   ),
                 );
               }
-        
+
               final image_list = snapshot.data;
               if (image_list?.isEmpty ?? true) {
                 return const Center(
@@ -87,19 +86,30 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
                 );
               }
               return ListView.builder(
-                padding: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
                   scrollDirection: Axis.vertical,
                   itemCount: image_list?.length,
                   itemBuilder: (context, index) {
-                    return CachedNetworkImage(
-                      imageUrl: image_list?[index].image_url ?? 'N/A',
-                      placeholder: (context, url) {
-                        return const SizedBox(
-                            height: 200,
-                            child: Center(child: CircularProgressIndicator()));
-                      },
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    );
+                    if (index == image_list!.length - 1) {
+                      return Container(
+                        height: 50,
+                        color: Colors.white,
+                        child: const Center(
+                          child: Text("End of chapter"),
+                        ),
+                      );
+                    } else {
+                      return CachedNetworkImage(
+                        imageUrl: image_list[index].image_url ?? 'N/A',
+                        placeholder: (context, url) {
+                          return const SizedBox(
+                              height: 200,
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        },
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      );
+                    }
                   });
             }),
       )),
