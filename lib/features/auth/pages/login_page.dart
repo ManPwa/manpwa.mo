@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           password: passwordController.text);
                       String token = response.data["access_token"];
                       // ignore: invalid_use_of_visible_for_testing_member
-                      SharedPreferences.setMockInitialValues({});
+                      // SharedPreferences.setMockInitialValues({});
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setString('token', token);
                       // ignore: use_build_context_synchronously
