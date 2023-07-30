@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api/entities/chapter.dart';
 import '../../../api/requests/chapter_api.dart';
 import '../read_chapter/chapter_image_page.dart';
@@ -36,8 +38,10 @@ class _ChapterPageState extends State<ChapterPage> {
             remoterKey: jsonEncode(['chapter', 'list', widget.mangaId]),
             execute: () async {
               final chapterApi = GetIt.I.get<ChapterApi>();
+              final prefs = await SharedPreferences.getInstance();
+              String token = prefs.getString('token') ?? '';
               final response =
-                  await chapterApi.getChapterList(mangaId: widget.mangaId);
+                  await chapterApi.getChapterList(mangaId: widget.mangaId, token: token);
               return response.toList();
             },
             disabled: false,
@@ -72,6 +76,7 @@ class _ChapterPageState extends State<ChapterPage> {
               }
 
               final chapter_list = snapshot.data;
+              log(chapter_list.toString());
               if (chapter_list?.isEmpty ?? true) {
                 return const Center(
                   child: Text('No manga yet!'),
@@ -140,8 +145,15 @@ class _ChapterPageState extends State<ChapterPage> {
                                         }
                                         return string1 + middleString + string2;
                                       })(),
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                          style: TextStyle(
+                                            color: (() {
+                                              if (new_chapter_list[index].read?.length == 0) {
+                                                return Colors.black;
+                                              } else {
+                                                return Theme.of(context).colorScheme.surfaceTint;
+                                              }
+                                              
+                                            }()),
                                             fontSize: 15,
                                           ),
                                           overflow: TextOverflow.ellipsis,

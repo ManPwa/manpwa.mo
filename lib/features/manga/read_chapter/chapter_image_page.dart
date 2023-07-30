@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_remoter/flutter_remoter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:manpwa/api/entities/chapter_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../api/requests/chapter_image_api.dart';
 
 class ChapterImagePage extends StatefulWidget {
@@ -44,8 +45,16 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
             remoterKey: jsonEncode(['chapter-image', 'list', widget.chapterId]),
             execute: () async {
               final imageApi = GetIt.I.get<ChapterImageApi>();
+              final prefs = await SharedPreferences.getInstance();
+              String token = prefs.getString('token') ?? '';
               final response = await imageApi.getChapterImageList(
                   chapterId: widget.chapterId);
+              try {
+                await imageApi.readChapter(
+                    chapterId: widget.chapterId, token: token);
+              } catch (e) {
+
+              }
               return response.toList();
             },
             disabled: false,

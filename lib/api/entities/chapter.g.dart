@@ -60,6 +60,14 @@ class _$ChapterSerializer implements StructuredSerializer<Chapter> {
         ..add('pages')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.read;
+    if (value != null) {
+      result
+        ..add('read')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(String)])));
+    }
     value = object.deleted;
     if (value != null) {
       result
@@ -126,6 +134,12 @@ class _$ChapterSerializer implements StructuredSerializer<Chapter> {
           result.pages = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'read':
+          result.read.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(String)]))!
+              as BuiltList<Object?>);
+          break;
         case '_deleted':
           result.deleted = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime?;
@@ -163,6 +177,8 @@ class _$Chapter extends Chapter {
   @override
   final int? pages;
   @override
+  final BuiltList<String>? read;
+  @override
   final DateTime? deleted;
   @override
   final DateTime? updated;
@@ -181,6 +197,7 @@ class _$Chapter extends Chapter {
       this.title,
       this.volumne,
       this.pages,
+      this.read,
       this.deleted,
       this.updated,
       this.updater,
@@ -204,6 +221,7 @@ class _$Chapter extends Chapter {
         title == other.title &&
         volumne == other.volumne &&
         pages == other.pages &&
+        read == other.read &&
         deleted == other.deleted &&
         updated == other.updated &&
         updater == other.updater &&
@@ -219,6 +237,7 @@ class _$Chapter extends Chapter {
     _$hash = $jc(_$hash, title.hashCode);
     _$hash = $jc(_$hash, volumne.hashCode);
     _$hash = $jc(_$hash, pages.hashCode);
+    _$hash = $jc(_$hash, read.hashCode);
     _$hash = $jc(_$hash, deleted.hashCode);
     _$hash = $jc(_$hash, updated.hashCode);
     _$hash = $jc(_$hash, updater.hashCode);
@@ -236,6 +255,7 @@ class _$Chapter extends Chapter {
           ..add('title', title)
           ..add('volumne', volumne)
           ..add('pages', pages)
+          ..add('read', read)
           ..add('deleted', deleted)
           ..add('updated', updated)
           ..add('updater', updater)
@@ -271,6 +291,10 @@ class ChapterBuilder implements Builder<Chapter, ChapterBuilder> {
   int? get pages => _$this._pages;
   set pages(int? pages) => _$this._pages = pages;
 
+  ListBuilder<String>? _read;
+  ListBuilder<String> get read => _$this._read ??= new ListBuilder<String>();
+  set read(ListBuilder<String>? read) => _$this._read = read;
+
   DateTime? _deleted;
   DateTime? get deleted => _$this._deleted;
   set deleted(DateTime? deleted) => _$this._deleted = deleted;
@@ -298,6 +322,7 @@ class ChapterBuilder implements Builder<Chapter, ChapterBuilder> {
       _title = $v.title;
       _volumne = $v.volumne;
       _pages = $v.pages;
+      _read = $v.read?.toBuilder();
       _deleted = $v.deleted;
       _updated = $v.updated;
       _updater = $v.updater;
@@ -322,18 +347,32 @@ class ChapterBuilder implements Builder<Chapter, ChapterBuilder> {
   Chapter build() => _build();
 
   _$Chapter _build() {
-    final _$result = _$v ??
-        new _$Chapter._(
-            id: id,
-            mangaId: mangaId,
-            chapter: chapter,
-            title: title,
-            volumne: volumne,
-            pages: pages,
-            deleted: deleted,
-            updated: updated,
-            updater: updater,
-            created: created);
+    _$Chapter _$result;
+    try {
+      _$result = _$v ??
+          new _$Chapter._(
+              id: id,
+              mangaId: mangaId,
+              chapter: chapter,
+              title: title,
+              volumne: volumne,
+              pages: pages,
+              read: _read?.build(),
+              deleted: deleted,
+              updated: updated,
+              updater: updater,
+              created: created);
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'read';
+        _read?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            r'Chapter', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

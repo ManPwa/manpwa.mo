@@ -13,4 +13,10 @@ class ChapterImageApi {
     final response = await access.fetch('api/chapter/$chapterId/image');
     return deserializeBuiltList<ChapterImage>(response.data);
   }
+
+  Future readChapter({required String chapterId, required String token}) async {
+    final response = await access.post('api/read-history/$chapterId',
+        headers: {"Authorization": "Bearer $token"}, data: {});
+    return response;
+  }
 }
