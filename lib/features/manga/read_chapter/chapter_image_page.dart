@@ -97,9 +97,9 @@ class _ChapterImagePageState extends State<ChapterImagePage> {
               return ListView.builder(
                   padding: EdgeInsets.zero,
                   scrollDirection: Axis.vertical,
-                  itemCount: image_list?.length,
+                  itemCount: image_list!.length + 1,
                   itemBuilder: (context, index) {
-                    if (index == image_list!.length - 1) {
+                    if (index == image_list.length) {
                       return Container(
                         height: 50,
                         color: Colors.white,
